@@ -8,14 +8,12 @@ DHT::DHT(uint8_t pin, uint8_t type, uint8_t count) {
     firstreading = true;
 }
 
-
 void DHT::begin(void) {
     // set up the pins!
     pinMode(_pin, INPUT);
     digitalWrite(_pin, HIGH);
     _lastreadtime = 0;
 }
-
 
 //boolean S == Scale.  True == Farenheit; False == Celcius
 float DHT::readTemperature(bool S) {

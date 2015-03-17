@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>README.md</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="doc-style.css" />
+  <script src="doc-filelist.js"></script>
+  <script>
+    var relativeDir = "", thisFile = "README.md", defaultSidebar = true;
+  </script>
+  <script src="doc-script.js"></script>
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+      <div class="heading h1">
+        <a href="#terracontrol">terracontrol</a>
+      </div>
+      <div class="heading h2">
+        <a href="#install">Install</a>
+      </div>
+      <div class="heading h4">
+        <a href="#code%20docs">Code Docs</a>
+      </div>
+      <div class="heading h3">
+        <a href="#configuration">Configuration</a>
+      </div>
+      <div class="heading h4">
+        <a href="#relevant%20configurations">Relevant configurations</a>
+      </div>
+      <div class="heading h3">
+        <a href="#run">Run</a>
+      </div>
+      <div class="heading h3">
+        <a href="#development">Development</a>
+      </div>
+      <div class="heading h4">
+        <a href="#code%20documentation">Code documentation</a>
+      </div>
+      <div class="heading h2">
+        <a href="#todos">TODOS</a>
+      </div>
+      <div class="heading h2">
+        <a href="#release%20history">Release History</a>
+      </div>
+      <div class="heading h2">
+        <a href="#the%20mit%20license%20(mit)">The MIT License (MIT)</a>
+      </div>
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container"><div class="docs markdown">
+<div class="pilwrap" id="terracontrol">
+  <h1>
+    <a href="#terracontrol" name="terracontrol" class="pilcrow">&#182;</a>
+    terracontrol
+  </h1>
+</div>
+
+
+
+<div class="pilwrap" id="install">
+  <h2>
+    <a href="#install" name="install" class="pilcrow">&#182;</a>
+    Install
+  </h2>
+</div>
+
+
+<p>Make sure you have installed the grunt client <code>npm install -g grunt-cli</code>.</p>
+
+<div class='highlight'><pre><code language=''>npm install
+grunt build
+</code></pre></div>
+
+
+<div class="pilwrap" id="code%20docs">
+  <h4>
+    <a href="#code%20docs" name="code%20docs" class="pilcrow">&#182;</a>
+    Code Docs
+  </h4>
+</div>
+
+
+<p>To document the code the module <strong><a href="http://jbt.github.io/docker/src/docker.js.html">docker.js</a></strong> is used.</p>
+
+<p>To regenerate the docs just call</p>
+
+<div class='highlight'><pre><code language=''>grunt docs
+</code></pre></div>
+
+<p>This will regenrate the code docs to the <code>_docs</code> folder.</p>
+
+
+<div class="pilwrap" id="configuration">
+  <h3>
+    <a href="#configuration" name="configuration" class="pilcrow">&#182;</a>
+    Configuration
+  </h3>
+</div>
+
+
+<p>To change your local configuration add a file <code>config.json</code> to the root.
+Within this file every key is optional</p>
+
+<p><strong>Example:</strong></p>
+
+<div class='highlight'><pre><code language=''>{
+    "server": {
+        "port": 3000
+    }
+}
+</code></pre></div>
+
+
+<div class="pilwrap" id="relevant%20configurations">
+  <h4>
+    <a href="#relevant%20configurations" name="relevant%20configurations" class="pilcrow">&#182;</a>
+    Relevant configurations
+  </h4>
+</div>
+
+
+<ul>
+<li><strong>server</strong> <em>( <code>Object</code> )</em>: server configuration.
+<ul><li><strong>port</strong> <em>( <code>Number</code> [ default: <code>3000</code> ])</em>: The port the server will listen to.</li>
+<li><strong>basepath</strong> <em>( <code>String</code> [ default: <code>/</code> ])</em>: Path prefix for all routes.</li>
+<li><strong>appname</strong> <em>( <code>String</code> [ default: <code>terracontrol</code> ])</em>: The app name. Used as <code>redis-session</code> namespace.</li></ul></li>
+<li><strong>selfLink</strong> <em>( <code>String</code> [ default: <code>http://localhost:3000/</code> ] )</em> The link to the running server. E.g. used to generate the passwordless token-link.</li>
+<li><strong>express</strong> <em>( <code>Object</code> )</em>: Express configuration.
+<ul><li><strong>logger</strong> <em>( <code>String</code> [ default: <code>dev</code> ])</em>: Express logger config.</li>
+<li><strong>staticCacheTime</strong> <em>( <code>Number</code> [ default: <code>2678400000</code> ])</em>: Caching time for static content. Default is 31 days.</li></ul></li>
+<li><strong>redis</strong> <em>( <code>Object</code> )</em>: Redis configuration.
+<ul><li><strong>host</strong> <em>( <code>String</code> [ default: <code>localhost</code> ])</em>: Redis server</li>
+<li><strong>port</strong> <em>( <code>Number</code> [ default: <code>6379</code> ])</em>: Redis port</li>
+<li><strong>options</strong> <em>( <code>Object</code> [ default: <code>{}</code> ])</em>: Redis options</li></ul></li>
+</ul>
+
+<blockquote>
+  <p>More to come</p>
+</blockquote>
+
+
+<div class="pilwrap" id="run">
+  <h3>
+    <a href="#run" name="run" class="pilcrow">&#182;</a>
+    Run
+  </h3>
+</div>
+
+
+<p>To start the server just call</p>
+
+<div class='highlight'><pre><code language=''>node server.js
+</code></pre></div>
+
+
+<div class="pilwrap" id="development">
+  <h3>
+    <a href="#development" name="development" class="pilcrow">&#182;</a>
+    Development
+  </h3>
+</div>
+
+
+<p>It's recommened to use a tool like <code>node-dev</code> ( <code>npm install -g node-dev</code> ) for developement wich restarts the server on a file change.
+Also you have </p>
+
+<p><strong>Start server</strong></p>
+
+<div class='highlight'><pre><code language=''>node-dev server.js
+</code></pre></div>
+
+<p>Now you can use the grunt watcher to generate the project files on every source change.</p>
+
+<div class='highlight'><pre><code language=''>grunt watch
+</code></pre></div>
+
+<p>Before you commit your code it's recommeded to call</p>
+
+<div class='highlight'><pre><code language=''>grunt build-dev
+</code></pre></div>
+
+<p>This task will build all files and updates the code docs</p>
+
+
+<div class="pilwrap" id="code%20documentation">
+  <h4>
+    <a href="#code%20documentation" name="code%20documentation" class="pilcrow">&#182;</a>
+    Code documentation
+  </h4>
+</div>
+
+
+<p>The code docu will be generated by <code>grunt docs</code>.
+This will pass all source files through <a href="http://jbt.github.io/docker/src/docker.js.html">docker.js</a> witch will generate the docs to the folder <code>/_docs</code>.</p>
+
+<p>Make shure the linking between the files are working well.
+To document the methods of a class please use the <a href="https://code.google.com/p/jsdoc-toolkit/w/list">jsdoc-toolkit pattern</a>. </p>
+
+
+<div class="pilwrap" id="todos">
+  <h2>
+    <a href="#todos" name="todos" class="pilcrow">&#182;</a>
+    TODOS
+  </h2>
+</div>
+
+
+
+<div class="pilwrap" id="release%20history">
+  <h2>
+    <a href="#release%20history" name="release%20history" class="pilcrow">&#182;</a>
+    Release History
+  </h2>
+</div>
+
+
+<p>|Version|Date|Description|
+|:--:|:--:|:--|
+|0.0.1|2015-1-2|Initial commit|</p>
+
+
+<div class="pilwrap" id="the%20mit%20license%20(mit)">
+  <h2>
+    <a href="#the%20mit%20license%20(mit)" name="the%20mit%20license%20(mit)" class="pilcrow">&#182;</a>
+    The MIT License (MIT)
+  </h2>
+</div>
+
+
+<p>Copyright © 2015 <a href="https://github.com/mpneuried">mpneuried</a></p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p></div>
+  </div>
+</body>
+</html>

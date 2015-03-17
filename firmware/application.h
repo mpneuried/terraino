@@ -44,8 +44,6 @@
 #include "spark_wiring_udp.h"
 #include "spark_wiring_time.h"
 
-void sendStatHat(char, float);
-
 void tsetup(void);
 void ttick(void);
 void fnDay(void);

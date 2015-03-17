@@ -1,0 +1,16 @@
+{
+	"eventName": "stathat-webhook-test-h",
+	"requestType": "POST",
+	"url": "https://api.stathat.com/v",
+	"deviceid": "50ff71065067545632140587",
+	"headers":{
+		"Content-Type": "application/x-www-form-urlencoded",
+		"Accept": "application/json",
+		"Accept": "*/*"
+	},
+	"query":{
+		"key": "80bUeMTWJ2tfSUMkTtaRgiBZSXp0Uw~~",
+		"ukey": "ODkzOCCWoLVcCgVRiuRYZyx5ZYF7",
+		"value": "{{SPARK_EVENT_VALUE}}"
+	}
+ }

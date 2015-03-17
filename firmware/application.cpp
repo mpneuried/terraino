@@ -1,27 +1,24 @@
 #include "application.h"
-#include "HttpClient.h"
 #include "DHT.h"
 #include "Adafruit_SSD1306.h"
 #include "Adafruit_GFX.h"
 
+#define USEDISPLAY
 //#define LOGGING
 
-#define STATHAT_DOMAIN "api.stathat.com"
-#define STATHAT_PATH "/v"
-#define STATHAT_PORT 80
-#define STATHAT_UKEY "ODkzOCCWoLVcCgVRiuRYZyx5ZYF7"
+//#define STATHAT_UKEY "ODkzOCCWoLVcCgVRiuRYZyx5ZYF7"
 // Terra TEST
-#define STATHAT_KEY_T "JCITlBZ-T8t-fqpqfVCeSyBDTGRqbg~~"
-#define STATHAT_KEY_H "80bUeMTWJ2tfSUMkTtaRgiBZSXp0Uw~~"
+//#define STATHAT_KEY_T "JCITlBZ-T8t-fqpqfVCeSyBDTGRqbg~~"
+//#define STATHAT_KEY_H "80bUeMTWJ2tfSUMkTtaRgiBZSXp0Uw~~"
 // Terra Left
 //#define STATHAT_KEY_T "WlvGjNiq3Wn1_jpRajNBfiBDVEFLTQ~~"
 //#define STATHAT_KEY_H "4IOEoN0qaoL2Lvvp4jWzWiBFaWlpcA~~"
 
 #define DHTPIN D7
 // Terra TEST
-#define DHTTYPE DHT11
+//#define DHTTYPE DHT11
 // Terra Left
-//#define DHTTYPE DHT22
+#define DHTTYPE DHT22
 
 
 #define OLED_MOSI   D2
@@ -52,63 +49,6 @@ int lightState = 0;
 
 int onTime = 730;
 int offTime = 1830;
-
-
-
-
-/**
-
-STATHAT
-
-*/
-HttpClient http;
-
-// Headers currently need to be set at init, useful for API keys etc.
-http_header_t headers[] = {
-    { "Content-Type", "application/x-www-form-urlencoded" },
-    { "Accept" , "application/json" },
-    { "Accept" , "*/*"},
-    { NULL, NULL } // NOTE: Always terminate headers will NULL
-};
-
-http_request_t request;
-http_response_t response;
-
-void sendStatHat( char type[1], float val ) {
-    
-    #ifdef LOGGING
-    Serial.println("STATHAT >\tSTART");
-    Serial.println( val );
-    #endif
-    
-    request.hostname = STATHAT_DOMAIN;
-    request.port = STATHAT_PORT;
-    request.path = STATHAT_PATH;
-
-    char _data[128];
-    if ( type == "t" ){
-        sprintf(_data, "key=%s&ukey=%s&value=%.2f", STATHAT_KEY_T, STATHAT_UKEY, val );
-    }else{
-        sprintf(_data, "key=%s&ukey=%s&value=%.2f", STATHAT_KEY_H, STATHAT_UKEY, val );    
-    }
-
-    // The library also supports sending a body with your request:
-    request.body = _data;
-
-    // Get request
-    http.post(request, response, headers);
-    Serial.print("STATHAT >\tResponse status: ");
-    Serial.print( type );
-    Serial.print( " : " );
-    Serial.println(response.status);
-
-    #ifdef LOGGING
-    Serial.print("STATHAT >\ttHTTP Response Body: ");
-    Serial.println(response.body);
-    #endif
-}
-
-
 
 
 
@@ -191,9 +131,19 @@ void fnMinute(){
     Serial.println( "TIMER >\tMinute" );
     #endif
 
+    #ifdef LOGGING
+    Serial.print( "PUBLISH >\tT " );
+    Serial.println( String(_t) );
+    Serial.print( "PUBLISH >\tH " );
+    Serial.println( String(_h) );
+    #endif
+
+    Spark.publish("stathat-webhook-test-t", String(_t), 60, PRIVATE);
+    Spark.publish("stathat-webhook-test-h", String(_h), 60, PRIVATE);
+
     processRelais();
-    sendStatHat( "t", _t );
-    sendStatHat( "h", _h );
+    //sendStatHat( "t", _t );
+    //sendStatHat( "h", _h );
 }
 
 void fnSecond(){
@@ -203,7 +153,9 @@ void fnSecond(){
     #endif
 
     readSensors();
+    #ifdef USEDISPLAY
     drawDisplay();
+    #endif
 }
 
 
@@ -376,13 +328,19 @@ void setup() {
     //Time.zone(2); // Summer-time
 
     tsetup();
+
+    #ifdef USEDISPLAY
     setupDisplay();
     setupRelais();
+    #endif
 
     dht.begin();
 
     processRelais();
+
+    #ifdef USEDISPLAY
     drawDisplay();
+    #endif
 }
 
 void loop() {
