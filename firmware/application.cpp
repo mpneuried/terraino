@@ -3,8 +3,14 @@
 #include "Adafruit_SSD1306.h"
 #include "Adafruit_GFX.h"
 
-#define USEDISPLAY
+//#define USEDISPLAY
 //#define LOGGING
+#define NOLED
+
+// #define PUBLISH_KEY_T "stathat-webhook-test-t"
+// #define PUBLISH_KEY_H "stathat-webhook-test-h"
+#define PUBLISH_KEY_T "stathat-webhook-terra-t"
+#define PUBLISH_KEY_H "stathat-webhook-terra-h"
 
 //#define STATHAT_UKEY "ODkzOCCWoLVcCgVRiuRYZyx5ZYF7"
 // Terra TEST
@@ -95,7 +101,8 @@ void tsetup() {
 }
 
 void ttick(){
-    if( Time.second() != _lastS ){
+    int _ts = Time.second();
+    if( _ts != _lastS ){
         fnSecond();
     }
     if( Time.minute() != _lastM ){
@@ -107,7 +114,7 @@ void ttick(){
     if( Time.day() != _lastD ){
         fnDay();
     }
-    _lastS = Time.second();
+    _lastS = _ts;
     _lastM = Time.minute();
     _lastH = Time.hour();
     _lastD = Time.day();
@@ -133,17 +140,19 @@ void fnMinute(){
 
     #ifdef LOGGING
     Serial.print( "PUBLISH >\tT " );
-    Serial.println( String(_t) );
+    Serial.println( String( temperature ) );
     Serial.print( "PUBLISH >\tH " );
-    Serial.println( String(_h) );
+    Serial.println( String( humidity ) );
     #endif
 
-    Spark.publish("stathat-webhook-test-t", String(_t), 60, PRIVATE);
-    Spark.publish("stathat-webhook-test-h", String(_h), 60, PRIVATE);
+    if( temperature > -10 && temperature < 60 ){
+        Spark.publish( PUBLISH_KEY_T, String(temperature), 60, PRIVATE);
+    }
+    if( humidity > 0 && humidity < 60 ){
+        Spark.publish( PUBLISH_KEY_H, String(humidity), 60, PRIVATE);
+    }
 
     processRelais();
-    //sendStatHat( "t", _t );
-    //sendStatHat( "h", _h );
 }
 
 void fnSecond(){
@@ -258,7 +267,7 @@ void setupRelais(){
 
 void processRelais(){
     int _time = ( Time.hour() * 100 ) + Time.minute();
-    
+   
     if( _time >= onTime && _time < offTime ){
         #ifdef LOGGING
         Serial.println("RELAIS >\tswitch light on");
@@ -298,6 +307,10 @@ void processRelais(){
         Serial.println("RELAIS >\tswitch heat off");
         #endif
     }
+    
+    char _status[30];
+    sprintf(_status, "LIGHT:%i HEAT:%i TIME:%i", lightState, heatState, _time);
+    Spark.publish( "STATUS", _status, 60, PRIVATE );
 }
 
 
@@ -324,6 +337,11 @@ void publishMetrics(){
 void setup() {
     Serial.begin(9600);
 
+    #ifdef NOLED
+    RGB.control(true);
+    RGB.brightness(0);
+    #endif
+
     Time.zone(1); // Winter-time
     //Time.zone(2); // Summer-time
 
@@ -331,11 +349,11 @@ void setup() {
 
     #ifdef USEDISPLAY
     setupDisplay();
-    setupRelais();
     #endif
 
     dht.begin();
 
+    setupRelais();
     processRelais();
 
     #ifdef USEDISPLAY
@@ -345,5 +363,6 @@ void setup() {
 
 void loop() {
     ttick();
+    delay(5000);
 }
 
