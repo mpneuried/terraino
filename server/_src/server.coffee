@@ -23,8 +23,6 @@ compression = require('compression')
 serveStatic = require('serve-static')
 morgan = require('morgan')
 bodyParser = require('body-parser')
-cookieParser = require( "cookie-parser" )
-ConnectRedisSessions = require( "connect-redis-sessions" )
 nunjucks = require('nunjucks')
 
 # **internal modules**
@@ -37,7 +35,7 @@ class Server extends require( "mpbasic" )( Config )
 	defaults: =>
 		@extend super,
 			# **port** *Number* The port the server will listen for.
-			port: 3000
+			port: 5000
 			# **host** *String* The host of this server. Currently this ist just for info.
 			host: "localhost"
 			# **listenHost** *String* The express listen host
@@ -45,9 +43,9 @@ class Server extends require( "mpbasic" )( Config )
 			# **basepath** *String* Path prefix for all routes.
 			basepath: "/"
 			# **title** *String* Express title
-			title: "terracontrol"
+			title: "terraino-server"
 			# **appname** *String* The app name. Used as `redis-session` namespace.
-			appname: "terracontrol"
+			appname: ""
 			# **sessionttl** *Number* session timeout passed to connect-redis-sessions. Default is one month/31 days
 			sessionttl: 1000 * 60 * 60 * 24 * 31
 			# **templateCache** *Boolean* Use the express template cache
@@ -84,18 +82,11 @@ class Server extends require( "mpbasic" )( Config )
 		@express.set( "title", @config.title )
 		@express.use( morgan( expressConf.logger ) )
 		@express.use( compression() )
-		@express.use( cookieParser() )
 		@express.use( bodyParser.json() )
 		@express.use( bodyParser.urlencoded( extended: true ) )
 
 		# serve the static files
 		@express.use( serveStatic( path.resolve( __dirname, "./static" ), maxAge: expressConf.staticCacheTime ) )
-		
-		# configure [connect-redis-sessions](https://github.com/mpneuried/connect-redis-sessions)
-		cnfRedis = Config.get( "redis" )
-		fnCRS = ConnectRedisSessions( app: @config.appname, ttl: Math.round( @config.sessionttl / 1000 ), cookie: { maxAge: @config.sessionttl }, port: cnfRedis.port, host: cnfRedis.host, options: cnfRedis.options )
-		@express.use( fnCRS )
-
 		
 		
 		

@@ -1,29 +1,28 @@
-# # RestTunnel
+# # pg Base
 # ### extends [NPM:MPBasic](https://cdn.rawgit.com/mpneuried/mpbaisc/master/_docs/index.coffee.html)
 #
 # ### Exports: *Class*
 # 
-# Generic class the handle the standard cases to talk with a external REST api
+# Generic class to handle postgres data
 
 # **npm modules**
 _ = require( "lodash" )
 
 # **internal modules**
-# The [Config](../lib/config.coffee.html)
+# [Config](../lib/config.coffee.html)
 Config = require( "../lib/config" )
 
-# The [Request Helper](../lib/request.coffee.html)
-request = new ( require( "../lib/request" ) )()
+# [postgres connect](../lib/pg_connect.coffee.html)
+pg = require( "../lib/pg_connect" )
 
-class RestTunnel extends require( "mpbasic" )( Config )
+class pgBase extends require( "mpbasic" )( Config )
 	
 	defaults: =>
 		return @extend super, 
-			# **cacheTTL** *Number* Standard caching time in seconds
-			cacheTTL: 10000
-
-	# **request** *Request-Instance* Module to make http calls
-	request: request
+			# **tablename** *String* the table name
+			tablename: ""
+			# **columns** *Array* the table columns
+			columns: []
 
 	###	
 	## constructor 
@@ -32,16 +31,14 @@ class RestTunnel extends require( "mpbasic" )( Config )
 		# getter to read the name of this module
 		@getter "name", @_getName
 		# getter to read the base url
-		@getter "urlRoot", @_getUrlRoot
+		@getter "tablename", @_getTablename
 		super
-
-		@configTunnel = Config.get( "restTunnel" )
 		return
 
 	###
 	## _getName
 	
-	`_rest_tunnel._getName()`
+	`_pg_base._getName()`
 	
 	Getter Method to read the module name. This method exists to be overwritten
 	
@@ -55,7 +52,7 @@ class RestTunnel extends require( "mpbasic" )( Config )
 	###
 	## _getUrlRoot
 	
-	`_rest_tunnel._getUrlRoot()`
+	`_pg_base._getUrlRoot()`
 	
 	GEtter Method to read the url root. This method exists to be overwritten
 	
@@ -63,13 +60,13 @@ class RestTunnel extends require( "mpbasic" )( Config )
 	
 	@api private
 	###
-	_getUrlRoot: =>
-		return @configTunnel.dataBasePath + @urlbase + "/"
+	_getTablename: =>
+		return @config.tablename
 
 	###
 	## get
 	
-	`_rest_tunnel.get( _id [, options ], cb )`
+	`_pg_base.get( _id [, options ], cb )`
 	
 	Get a element from the data-api
 	
@@ -88,13 +85,18 @@ class RestTunnel extends require( "mpbasic" )( Config )
 		options.errorOnEmpty = true
 		@emit "get:options", options
 
-		@request.get( @urlRoot + _id, @_return( "get", cb, options ) )
+		_statement = "SELECT * FROM #{@tablename} WHERE id = $1"
+		_args = [ _id ]
+
+		console.log "GET: ", _statement, _args
+
+		pg.exec( _statement, _args, @_return( "get", cb, options ) )
 		return
 
 	###
 	## find
 	
-	`_rest_tunnel.find( query [, options ], cb )`
+	`_pg_base.find( query [, options ], cb )`
 	
 	query the data-api
 	
@@ -108,14 +110,17 @@ class RestTunnel extends require( "mpbasic" )( Config )
 		[ query, options ] = args
 		if not options?
 			options = {}
+
+		_statement = "SELECT * FROM #{@tablename}"
+		_args = []
 		
-		@request.get( @urlRoot, query, @_return( "find", cb, options ) )
+		pg.exec( _statement, _args, @_return( "get", cb, options ) )
 		return
 
 	###
 	## create
 	
-	`_rest_tunnel.create( body [, options ], cb )`
+	`_pg_base.create( body [, options ], cb )`
 	
 	Create a new element within the data-api
 	
@@ -141,7 +146,7 @@ class RestTunnel extends require( "mpbasic" )( Config )
 	###
 	## update
 	
-	`_rest_tunnel.update( _id, body [, options ], cb )`
+	`_pg_base.update( _id, body [, options ], cb )`
 	
 	Create a new element within the data-api
 	
@@ -168,7 +173,7 @@ class RestTunnel extends require( "mpbasic" )( Config )
 	###
 	## delete
 	
-	`_rest_tunnel.delete( _id [, options ], cb )`
+	`_pg_base.delete( _id [, options ], cb )`
 	
 	Delete a element by key
 	
@@ -193,7 +198,7 @@ class RestTunnel extends require( "mpbasic" )( Config )
 	###
 	## _return
 	
-	`_rest_tunnel._return( type, cb [, options ] )`
+	`_pg_base._return( type, cb [, options ] )`
 	
 	Helper method to create a REST return handler.
 	This method retuns a function to use as callback handler.
@@ -208,11 +213,12 @@ class RestTunnel extends require( "mpbasic" )( Config )
 	###
 	_return: ( type, cb, options={} )=>
 		return ( err, response )=>
+			console.log "RETRUN", err, response
 			if err
 				cb( err )
 				return
 
-			@debug "tunnel return", err, response.statusCode, data
+			@debug "pg return", err, response.statusCode, data
 			if response.statusCode >= 400
 				@_handleError( cb, data )
 				return
@@ -231,7 +237,7 @@ class RestTunnel extends require( "mpbasic" )( Config )
 	###
 	## _postProcess
 	
-	`_rest_tunnel._postProcess( data, type, options )`
+	`_pg_base._postProcess( data, type, options )`
 	
 	Called on every return to be able to post process the data
 	
@@ -256,7 +262,7 @@ class RestTunnel extends require( "mpbasic" )( Config )
 	###
 	## _postProcessElement
 	
-	`_rest_tunnel._postProcessElement( data, type, options )`
+	`_pg_base._postProcessElement( data, type, options )`
 	
 	Postprocess a element. The method is intended to be overwritten
 	
@@ -288,4 +294,4 @@ class RestTunnel extends require( "mpbasic" )( Config )
 			"ENOTFOUND": [ 404, "Element of `#{ @name }` not found" ]
 
 #export this class
-module.exports = RestTunnel
+module.exports = pgBase

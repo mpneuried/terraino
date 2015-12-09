@@ -4,18 +4,12 @@ class RestUsers extends require( "./restbase" )
 
 	createRoutes: ( basepath, router )=>
 		
-		router.get "#{basepath}/:id", @_checkAuth, @get
+		router.get "#{basepath}/:id", @get
 		super
 		return
 		
 	get: ( req, res )=>
 		_id = req.params.id
-
-		
-		if req.session.userid isnt _id
-			@_handleError( res, "EFORBIDDEN" )
-			return
-		
 
 		@model.get( _id, @_return( res ) )
 		return

@@ -16,7 +16,7 @@ DEFAULT =
 	version: PackageJSON.version
 	server: 
 		# **server.port** *Number* Server port
-		port: 3000
+		port: process.env.PORT or 5000
 		# **server.host** *String* Server host. Currently just for info
 		host: "localhost"
 		# **server.listenHost** *String* Express listen host.
@@ -26,30 +26,24 @@ DEFAULT =
 		# **server.title** *String* Service title.
 		title: PackageJSON.name
 		# **server.appname** *String* App name used by redis-sessions as namespace.
-		appname: "terracontrol"
+		appname: ""
 
 	# **selfLink** *String* The link to the running server. E.g. used to generate the passwordless token-link.
-	selfLink: "http://localhost:3000/"
+	selfLink: "http://localhost:5000/"
 
-	restTunnel:
-		# **restTunnel.dataBasePath** *String* Path to the external api
-		dataBasePath: "http://localhost:3002"
+	pg:
+		url: "localhost"
+		port: 5432
+		user: null
+		password: null
+		logging:
+			severity: "debug"
 
 	express:
 		# **express.logger** *String* logger configuration
 		logger: "dev"
 		# **express.staticCacheTime** *Number* Caching time of static content in `ms`
 		staticCacheTime: 1000 * 60 * 60 * 24 * 31
-
-	redis:
-		# **redis.host** *String* Redis host name
-		host: "localhost"
-		# **redis.port** *Number* Redis port
-		port: 6379
-		# **redis.options** *Object* Redis options
-		options: {}
-		# **redis.client** *RedisClient* Exsiting redis client instance
-		client: null
 
 
 # load the local config if the file exists

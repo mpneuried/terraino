@@ -7,15 +7,15 @@
 //#define LOGGING
 #define NOLED
 
-// #define PUBLISH_KEY_T "stathat-webhook-test-t"
-// #define PUBLISH_KEY_H "stathat-webhook-test-h"
-#define PUBLISH_KEY_T "stathat-webhook-terra-t"
-#define PUBLISH_KEY_H "stathat-webhook-terra-h"
+#define PUBLISH_KEY_T "stathat-webhook-test-t"
+#define PUBLISH_KEY_H "stathat-webhook-test-h"
+// #define PUBLISH_KEY_T "stathat-webhook-terra-t"
+// #define PUBLISH_KEY_H "stathat-webhook-terra-h"
 
-//#define STATHAT_UKEY "ODkzOCCWoLVcCgVRiuRYZyx5ZYF7"
+#define STATHAT_UKEY "ODkzOCCWoLVcCgVRiuRYZyx5ZYF7"
 // Terra TEST
-//#define STATHAT_KEY_T "JCITlBZ-T8t-fqpqfVCeSyBDTGRqbg~~"
-//#define STATHAT_KEY_H "80bUeMTWJ2tfSUMkTtaRgiBZSXp0Uw~~"
+#define STATHAT_KEY_T "JCITlBZ-T8t-fqpqfVCeSyBDTGRqbg~~"
+#define STATHAT_KEY_H "80bUeMTWJ2tfSUMkTtaRgiBZSXp0Uw~~"
 // Terra Left
 //#define STATHAT_KEY_T "WlvGjNiq3Wn1_jpRajNBfiBDVEFLTQ~~"
 //#define STATHAT_KEY_H "4IOEoN0qaoL2Lvvp4jWzWiBFaWlpcA~~"
@@ -42,6 +42,7 @@
 ALL
 
 */
+char auth[] = "f00748976def43f3b0ff738810903d1b";
 
 float heat_to = 29;
 
@@ -124,7 +125,7 @@ void fnDay(){
     #ifdef LOGGING
     Serial.println( "TIMER >\tDay" );
     #endif
-    Spark.syncTime();
+    Particle.syncTime();
 }
 
 void fnHour(){
@@ -146,10 +147,10 @@ void fnMinute(){
     #endif
 
     if( temperature > -10 && temperature < 60 ){
-        Spark.publish( PUBLISH_KEY_T, String(temperature), 60, PRIVATE);
+        Particle.publish( PUBLISH_KEY_T, String(temperature), 60, PRIVATE);
     }
-    if( humidity > 0 && humidity < 60 ){
-        Spark.publish( PUBLISH_KEY_H, String(humidity), 60, PRIVATE);
+    if( humidity > 10 && humidity < 60 ){
+        Particle.publish( PUBLISH_KEY_H, String(humidity), 60, PRIVATE);
     }
 
     processRelais();
@@ -194,7 +195,7 @@ void drawDisplay(){
         display.setTextColor(BLACK, WHITE);
         display.drawRect( 0, 54, 20, 9, WHITE);
     }else{
-        display.setTextColor(WHITE);    
+        display.setTextColor(WHITE);
     }
     display.setCursor(1,55);
     display.print( (int)temperature );
@@ -209,10 +210,10 @@ void drawDisplay(){
     display.print( (int)humidity );
     display.print("%");
     drawVBar( display, humidity, display.width()-7, 0, 5, 53, 100, 0 );
-    
+
     display.setTextColor(WHITE);
     display.setTextSize(4);
-    
+
     display.setCursor(15,15);
     int _hour = Time.hour();
     if( _hour < 10 ){
@@ -222,7 +223,7 @@ void drawDisplay(){
     }else{
         display.print( _hour );
     }
-    
+
     if( !showTDots ){
         display.setCursor(54,15);
         display.print( ":" );
@@ -230,7 +231,7 @@ void drawDisplay(){
     }else{
         showTDots = false;
     }
-    
+
     display.setCursor(70,15);
     int _minute = Time.minute();
     if( _minute < 10 ){
@@ -247,7 +248,7 @@ void drawDisplay(){
 void setupDisplay(){
     display.begin(SSD1306_SWITCHCAPVCC);
     display.display();
-    
+
     // text display tests
     display.setTextSize(1);
     display.setTextColor(WHITE);
@@ -267,7 +268,7 @@ void setupRelais(){
 
 void processRelais(){
     int _time = ( Time.hour() * 100 ) + Time.minute();
-   
+
     if( _time >= onTime && _time < offTime ){
         #ifdef LOGGING
         Serial.println("RELAIS >\tswitch light on");
@@ -275,7 +276,7 @@ void processRelais(){
 
         digitalWrite( LIGHTPIN, HIGH );
         lightState = 1;
-        
+
         #ifdef LOGGING
         Serial.println("RELAIS >\tlight on");
         #endif
@@ -307,10 +308,10 @@ void processRelais(){
         Serial.println("RELAIS >\tswitch heat off");
         #endif
     }
-    
+
     char _status[30];
     sprintf(_status, "LIGHT:%i HEAT:%i TIME:%i", lightState, heatState, _time);
-    Spark.publish( "STATUS", _status, 60, PRIVATE );
+    Particle.publish( "STATUS", _status, 60, PRIVATE );
 }
 
 
@@ -327,15 +328,17 @@ extern char* itoa(int a, char* buffer, unsigned char radix);
 void publishMetrics(){
     char _stmp[4];
     itoa( _t, _stmp, 10 );
-    Spark.publish( "temp", _stmp );
-    
+    Particle.publish( "temp", _stmp );
+
     char _shum[4];
     itoa( _h, _shum, 10 );
-    Spark.publish( "hum", _shum );
+    Particle.publish( "hum", _shum );
 }
 
 void setup() {
     Serial.begin(9600);
+
+    //Blynk.begin(auth);
 
     #ifdef NOLED
     RGB.control(true);
@@ -363,6 +366,6 @@ void setup() {
 
 void loop() {
     ttick();
+    //Blynk.run();
     delay(5000);
 }
-

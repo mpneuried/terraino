@@ -1,41 +1,41 @@
 {
-  "name": "terracontrol",
+  "name": "terraino-server",
   "version": "0.0.1",
   "description": "Server module to configure the spark.core controlled snake terrarium",
   "keywords": [],
-  "homepage": "https://github.com/mpneuried/terracontrol",
-  "bugs": "https://github.com/mpneuried/terracontrol/issues",
+  "homepage": "https://github.com/mpneuried/terraino-server",
+  "bugs": "https://github.com/mpneuried/terraino-server/issues",
   "author": {
     "name": "mpneuried",
     "email": "",
-    "url": "https://github.com/terracontrol"
+    "url": "https://github.com/terraino-server"
   },
   "main": "./server.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mpneuried/terracontrol.git"
+    "url": "https://github.com/mpneuried/terraino-server.git"
   },
-  "private": false,
+  "scripts": {
+    "test": "grunt test"
+  },
+  "private": true,
   "license": "MIT",
   "dependencies": {
-    "express": "4.9.x",
-    "morgan": "1.3.x",
-    "compression": "1.1.x",
-    "serve-static": "1.6.x",
     "body-parser": "1.9.x",
-    "cookie-parser": "1.3.x",
-    "hyperquest": "0.2.x",
-    "lodash": "2.4.x",
-    "mpbasic": "0.0.x",
+    "bootstrap": "3.3.x",
+    "compression": "1.1.x",
+    "express": "4.9.x",
     "extend": "1.2.x",
-    "node-cache": "1.x",
-    "redis": "0.12.x",
-    "hiredis": "0.1.x",
-    "connect-redis-sessions": "1.0.x",
-    "bcrypt": "0.8.x",
-    "nunjucks": "1.1.x",
+    "hyperquest": "0.2.x",
     "jquery": "2.1.x",
-    "bootstrap": "3.3.x"
+    "lodash": "2.4.x",
+    "morgan": "1.3.x",
+    "mpbasic": "0.0.x",
+    "node-cache": "1.x",
+    "nunjucks": "1.1.x",
+    "pg": "^4.3.0",
+    "serve-static": "1.6.x",
+    "sql": "^0.48.0"
   },
   "devDependencies": {
     "grunt": "0.4.x",
@@ -50,9 +50,6 @@
     "grunt-contrib-concat": "*",
     "grunt-browserify": "3.1.x",
     "grunt-nunjucks": "0.1.x",
-    "grunt-jasmine-node": "0.2.x",
-    "frisby": "0.8.x",
-    "grunt-docker": "0.0.x",
     "grunt-regarde": "*"
   }
 }

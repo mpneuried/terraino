@@ -94,7 +94,7 @@ module.exports = (grunt) ->
 			frontend: 
 				src: [ "static", "static_tmp" ]
 			mimified: 
-				src: [ "static/js/*.js", "!static/js/main.js", "!static/js/login.js" ]
+				src: [ "static/js/*.js", "!static/js/main.js" ]
 			statictmp: 
 				src: [ "static_tmp" ]
 			
@@ -151,7 +151,6 @@ module.exports = (grunt) ->
 			staticjs:
 				files:
 					"static/js/main.js": [ "static/js/main.js" ]
-					"static/js/login.js": [ "static/js/login.js" ]
 		
 		cssmin:
 			options:
@@ -169,33 +168,8 @@ module.exports = (grunt) ->
 				]
 
 		
-		jasmine_node:
-			all: [ "test/" ]
-			options:
-				forceExit: true,
-				match: '.',
-				matchall: false,
-				extensions: 'js',
-				specNameMatcher: 'spec'	
-		
 
 		
-		
-		docker:
-			serverdocs:
-				expand: true
-				src: ["_src/**/*.coffee", "_src_static/js/**/*.coffee", "_src_static/css/**/*.styl", "README.md"]
-				dest: "_docs/"
-				options:
-					onlyUpdated: false
-					colourScheme: "autumn"
-					ignoreHidden: false
-					sidebarState: true
-					exclude: false
-					lineNums: true
-					js: []
-					css: []
-					extras: []
 		
 
 	# Load npm modules
@@ -208,11 +182,11 @@ module.exports = (grunt) ->
 	grunt.loadNpmTasks "grunt-contrib-compress"
 	grunt.loadNpmTasks "grunt-contrib-concat"
 	grunt.loadNpmTasks "grunt-contrib-clean"
-	grunt.loadNpmTasks "grunt-jasmine-node"
+	
 	grunt.loadNpmTasks "grunt-nunjucks"
 	grunt.loadNpmTasks "grunt-browserify"
 	
-	grunt.loadNpmTasks "grunt-docker"
+	
 
 
 
@@ -223,19 +197,19 @@ module.exports = (grunt) ->
 	grunt.registerTask "watch", "regarde"
 	grunt.registerTask "default", "build"
 	
-	grunt.registerTask "docs", "docker"
+	
 	grunt.registerTask "clear", [ "clean:server", "clean:frontend"  ]
 
 	# build the project
 	
 	grunt.registerTask "build", [ "clean:frontend", "build_server", "build_frontend"  ]
-	grunt.registerTask "build-dev", [ "build" , "docs" ]
+	grunt.registerTask "build-dev", [ "build"  ]
 
 	grunt.registerTask "build_server", [ "coffee:backend_base" ]
 
 	
 	grunt.registerTask "build_frontend", [ "build_staticjs", "build_vendorcss", "stylus", "build_staticfiles" ]
-	grunt.registerTask "build_staticjs", [ "clean:statictmp", "coffee:frontend_base", "nunjucks:main", "browserify:main", "browserify:login", "clean:mimified" ]
+	grunt.registerTask "build_staticjs", [ "clean:statictmp", "coffee:frontend_base", "nunjucks:main", "browserify:main", "clean:mimified" ]
 	grunt.registerTask "build_vendorcss", [ "cssmin:staticcss" ]
 	grunt.registerTask "build_staticfiles", [ "copy:static", "copy:bootstrap_fonts" ]
 	

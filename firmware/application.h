@@ -26,7 +26,11 @@
 #ifndef APPLICATION_H_
 #define APPLICATION_H_
 
-#define SPARK_CORE (1)
+#include "system_version.h"
+
+#ifdef SPARK_PLATFORM
+#include "platform_headers.h"
+#endif
 
 #include "spark_wiring.h"
 #include "spark_wiring_interrupts.h"
@@ -43,6 +47,8 @@
 #include "spark_wiring_tcpserver.h"
 #include "spark_wiring_udp.h"
 #include "spark_wiring_time.h"
+
+#include "stdio.h"
 
 void tsetup(void);
 void ttick(void);
