@@ -3,7 +3,7 @@
 #include "Adafruit_SSD1306.h"
 #include "Adafruit_GFX.h"
 
-//#define USEDISPLAY
+#define USEDISPLAY
 //#define LOGGING
 #define NOLED
 
