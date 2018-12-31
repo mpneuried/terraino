@@ -6,7 +6,7 @@ paired with a hardware-specific library for each display device we carry
 
 Adafruit invests time and resources providing this open source code, please
 support Adafruit & open-source hardware by purchasing products from Adafruit!
-
+ 
 Copyright (c) 2013 Adafruit Industries.  All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -329,7 +329,7 @@ void Adafruit_GFX::drawCircle(int16_t x0, int16_t y0, int16_t r,
     x++;
     ddF_x += 2;
     f += ddF_x;
-
+  
     drawPixel(x0 + x, y0 + y, color);
     drawPixel(x0 - x, y0 + y, color);
     drawPixel(x0 + x, y0 - y, color);
@@ -361,7 +361,7 @@ void Adafruit_GFX::drawCircleHelper( int16_t x0, int16_t y0,
     if (cornername & 0x4) {
       drawPixel(x0 + x, y0 + y, color);
       drawPixel(x0 + y, y0 + x, color);
-    }
+    } 
     if (cornername & 0x2) {
       drawPixel(x0 + x, y0 - y, color);
       drawPixel(x0 + y, y0 - x, color);
@@ -648,9 +648,9 @@ void Adafruit_GFX::drawChar(int16_t x, int16_t y, unsigned char c,
 
   for (int8_t i=0; i<6; i++ ) {
     uint8_t line;
-    if (i == 5)
+    if (i == 5) 
       line = 0x0;
-    else
+    else 
       line = pgm_read_byte(font+(c*5)+i);
     for (int8_t j = 0; j<8; j++) {
       if (line & 0x1) {
@@ -658,7 +658,7 @@ void Adafruit_GFX::drawChar(int16_t x, int16_t y, unsigned char c,
           drawPixel(x+i, y+j, color);
         else {  // big size
           fillRect(x+(i*size), y+(j*size), size, size, color);
-        }
+        } 
       } else if (bg != color) {
         if (size == 1) // default size
           drawPixel(x+i, y+j, bg);
@@ -681,14 +681,14 @@ void Adafruit_GFX::setTextSize(uint8_t s) {
 }
 
 void Adafruit_GFX::setTextColor(uint16_t c) {
-  // For 'transparent' background, we'll set the bg
+  // For 'transparent' background, we'll set the bg 
   // to the same as fg instead of using a flag
   textcolor = textbgcolor = c;
 }
 
 void Adafruit_GFX::setTextColor(uint16_t c, uint16_t b) {
   textcolor   = c;
-  textbgcolor = b;
+  textbgcolor = b; 
 }
 
 void Adafruit_GFX::setTextWrap(boolean w) {
@@ -719,7 +719,7 @@ void Adafruit_GFX::setRotation(uint8_t x) {
 int16_t Adafruit_GFX::width(void) {
   return _width;
 }
-
+ 
 int16_t Adafruit_GFX::height(void) {
   return _height;
 }

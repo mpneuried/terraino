@@ -4,14 +4,16 @@
 #include "Adafruit_GFX.h"
 
 #define USEDISPLAY
-//#define LOGGING
+#define LOGGING
 #define NOLED
 
-#define PUBLISH_KEY_T "stathat-webhook-test-t"
-#define PUBLISH_KEY_H "stathat-webhook-test-h"
-// #define PUBLISH_KEY_T "stathat-webhook-terra-t"
-// #define PUBLISH_KEY_H "stathat-webhook-terra-h"
+//#define PUBLISH
+//#define PUBLISH_KEY_T "stathat-webhook-test-t"
+//#define PUBLISH_KEY_H "stathat-webhook-test-h"
+//#define PUBLISH_KEY_T "stathat-webhook-terra-t"
+//#define PUBLISH_KEY_H "stathat-webhook-terra-h"
 
+/*
 #define STATHAT_UKEY "ODkzOCCWoLVcCgVRiuRYZyx5ZYF7"
 // Terra TEST
 #define STATHAT_KEY_T "JCITlBZ-T8t-fqpqfVCeSyBDTGRqbg~~"
@@ -19,6 +21,7 @@
 // Terra Left
 //#define STATHAT_KEY_T "WlvGjNiq3Wn1_jpRajNBfiBDVEFLTQ~~"
 //#define STATHAT_KEY_H "4IOEoN0qaoL2Lvvp4jWzWiBFaWlpcA~~"
+*/
 
 #define DHTPIN D7
 // Terra TEST
@@ -42,9 +45,8 @@
 ALL
 
 */
-char auth[] = "f00748976def43f3b0ff738810903d1b";
-
-float heat_to = 29;
+double heat_to = 29;
+double timezone = 1;
 
 float _t = 0;
 float _h = 0;
@@ -146,12 +148,14 @@ void fnMinute(){
     Serial.println( String( humidity ) );
     #endif
 
+    #ifdef PUBLISH
     if( temperature > -10 && temperature < 60 ){
         Particle.publish( PUBLISH_KEY_T, String(temperature), 60, PRIVATE);
     }
     if( humidity > 10 && humidity < 60 ){
         Particle.publish( PUBLISH_KEY_H, String(humidity), 60, PRIVATE);
     }
+    #endif
 
     processRelais();
 }
@@ -178,7 +182,7 @@ Adafruit_SSD1306 display(OLED_MOSI, OLED_CLK, OLED_DC, OLED_RESET, OLED_CS);
 
 bool showTDots = false;
 
-void drawVBar( Adafruit_SSD1306 dsp, float value, int x, int y, int width, float height, int factor, int line ) {
+void drawVBar( Adafruit_SSD1306 dsp, float value, int x, int y, int width, double height, int factor, int line ) {
     int _v = value * ( height / factor );
     if( line ){
         int _line = height - line * ( height / factor );
@@ -324,7 +328,9 @@ GENERAL
 */
 // allow us to use itoa() in this scope
 extern char* itoa(int a, char* buffer, unsigned char radix);
+extern double atof(const char *string);
 
+/*
 void publishMetrics(){
     char _stmp[4];
     itoa( _t, _stmp, 10 );
@@ -334,19 +340,38 @@ void publishMetrics(){
     itoa( _h, _shum, 10 );
     Particle.publish( "hum", _shum );
 }
+*/
+
+
+// Cloud functions must return int and take one String
+int setTargetTemp(String settemp) {
+    float iSetTemp = settemp.toFloat();
+    heat_to = static_cast<double>(iSetTemp);
+    return 0;
+};
+
+int setZone(String zone) {
+    float iZone = zone.toInt();
+    timezone = iZone;
+    Time.zone(timezone);
+    return iZone;
+};
 
 void setup() {
     Serial.begin(9600);
-
-    //Blynk.begin(auth);
 
     #ifdef NOLED
     RGB.control(true);
     RGB.brightness(0);
     #endif
 
-    Time.zone(1); // Winter-time
+    Time.zone(timezone); // Winter-time
     //Time.zone(2); // Summer-time
+
+    Particle.variable("target_temp", heat_to);
+    Particle.function("set_temp", setTargetTemp);
+    Particle.variable("timezone", timezone);
+    Particle.function("set_timezone", setZone);
 
     tsetup();
 
