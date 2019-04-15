@@ -1,0 +1,114 @@
+esphome:
+  name: 'garage'
+  platform: ESP8266
+  board: esp01_1m
+
+wifi:
+  ssid: 'Catwoman'
+  password: 'qct25ssvfj97'
+ # manual_ip:
+    # Set this to the IP of the ESP
+    #static_ip: 192.168.8.108
+    #gateway: 192.168.8.1
+    # The subnet of the network. 255.255.255.0 works for most home networks.
+    #subnet: 255.255.255.0
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: 'xrdzrtfsx&Rdq07'
+
+ota:
+  password: 'xrdzrtfsx&Rdq07'
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+# web_server:
+#   port: 80
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Garage Button 1"
+    id: button1
+    on_state:
+      lambda: |-
+        if (id(button1).state) {
+          id(relay1).turn_on();
+        } else {
+          id(relay1).turn_off();
+        }
+  - platform: gpio
+    pin:
+      number: GPIO9
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Garage Button 2"
+    id: button2
+    on_press:
+      then:
+        - switch.toggle: relay2
+  - platform: gpio
+    pin:
+      number: GPIO10
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Garage Button 3"
+    id: button3
+    on_press:
+      then:
+        - switch.toggle: relay3
+  - platform: gpio
+    pin:
+      number: GPIO14
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Garage Button 4"
+    id: button4
+    on_press:
+      then:
+        - switch.toggle: relay4
+  - platform: status
+    name: "Garage Status"
+
+switch:
+  - platform: gpio
+    name: "Garage Relay 1"
+    pin: GPIO12
+    id: relay1
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: gpio
+    name: "Garage Relay 2"
+    pin: GPIO5
+    id: relay2
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: gpio
+    name: "Garage Relay 3"
+    pin: GPIO4
+    id: relay3
+    restore_mode: RESTORE_DEFAULT_OFF
+  - platform: gpio
+    name: "Garage Relay 4"
+    pin: GPIO15
+    id: relay4
+    restore_mode: RESTORE_DEFAULT_OFF
+
+output:
+  # Register the blue LED as a dimmable output ....
+  - platform: esp8266_pwm
+    id: blue_led
+    pin: GPIO13
+    inverted: True
+
+light:
+  # ... and then make a light out of it.
+  - platform: monochromatic
+    name: "Garage Blue LED"
+    output: blue_led

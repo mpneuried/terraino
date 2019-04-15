@@ -1,0 +1,81 @@
+esphomeyaml:
+  name: 'terra_chili_coco'
+  platform: ESP32
+  board: nodemcu-32s
+
+wifi:
+  ssid: 'Catwoman'
+  password: 'qct25ssvfj97'
+ # manual_ip:
+    # Set this to the IP of the ESP
+    #static_ip: 192.168.8.108
+    #gateway: 192.168.8.1
+    # The subnet of the network. 255.255.255.0 works for most home networks.
+    #subnet: 255.255.255.0
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: 'xrdzrtfsx&Rdq07'
+
+ota:
+  password: 'xrdzrtfsx&Rdq07'
+
+web_server:
+  port: 80
+
+time:
+  - platform: sntp
+    timezone: Europe/Berlin
+    id: time
+    on_time:
+    - seconds: 0
+      hours: 7
+      minutes: 30
+      then:
+      - switch.turn_on: terra_light
+    - seconds: 0
+      hours: 18
+      minutes: 30
+      then:
+      - switch.turn_off: terra_light
+
+interval:
+  - interval: 60s
+    then:
+    - lambda: |-
+          auto currtime = id(time).now();
+          ESP_LOGD("time", "%i.%i %i:%i %s", currtime.day_of_month, currtime.month, currtime.hour, currtime.minute, currtime.is_dst);
+
+sensor:
+  - platform: uptime
+    name: Uptime Sensor
+  - platform: dht
+    pin: 14
+    model: DHT22
+    temperature:
+      name: "Living Room Temperature"
+      id: temperature
+      on_value_range:
+      - above: 30.0
+        then:
+        - switch.turn_off: heating
+      - below: 28.0
+        then:
+        - switch.turn_on: heating
+    humidity:
+      name: "Living Room Humidity"
+      id: humidity
+    update_interval: 60s
+
+switch:
+  - platform: gpio
+    pin: 12
+    name: "Heating"
+    id: heating
+  - platform: gpio
+    pin: 13
+    name: "Light"
+    id: terra_light

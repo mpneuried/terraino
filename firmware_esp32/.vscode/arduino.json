@@ -1,0 +1,7 @@
+{
+    "board": "espressif:esp32:esp32doit-devkit-v1",
+    "configuration": "FlashFreq=80,UploadSpeed=921600,DebugLevel=none",
+    "port": "/dev/cu.SLAB_USBtoUART",
+    "programmer": "AVRISP mkII",
+    "sketch": "main.ino"
+}

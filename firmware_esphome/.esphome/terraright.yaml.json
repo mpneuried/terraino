@@ -1,0 +1,17 @@
+{
+  "use_legacy_ota": true, 
+  "arduino_version": "espressif32@1.5.0", 
+  "address": "terra_chili_coco.local", 
+  "storage_version": 1, 
+  "esphome_version": "1.11.2", 
+  "build_path": "terra_chili_coco", 
+  "name": "terra_chili_coco", 
+  "firmware_bin_path": "terra_chili_coco/.pioenvs/terra_chili_coco/firmware.bin", 
+  "esphome_core_version": {
+    "tag": "v1.11.2", 
+    "repository": "https://github.com/esphome/esphome-core.git"
+  }, 
+  "board": "nodemcu-32s", 
+  "esp_platform": "ESP32", 
+  "src_version": 1
+}
