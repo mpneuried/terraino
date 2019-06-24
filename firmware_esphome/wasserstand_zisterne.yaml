@@ -1,0 +1,74 @@
+esphomeyaml:
+  name: 'wasserstand_zisterne'
+  platform: ESP32
+  board: ttgo-lora32-v1
+
+wifi:
+  ssid: 'Catwoman'
+  password: 'qct25ssvfj97'
+
+# Enable logging
+logger:
+  baud_rate: 0
+
+uart:
+  rx_pin: RX
+  baud_rate: 4800
+
+# Enable Home Assistant API
+api:
+  password: 'xrdzrtfsx&Rdq07'
+
+ota:
+  password: 'xrdzrtfsx&Rdq07'
+
+web_server:
+  port: 80
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+i2c:
+  sda: 5
+  scl: 4
+
+status_led:
+  pin: GPIO13
+
+sensor:
+  - platform: ultrasonic
+    trigger_pin: 12
+    echo_pin: 14
+    id: distance
+    name: "Ultrasonic Sensor"
+    update_interval: 1s
+    unit_of_measurement: "m"
+    filters:
+      - sliding_window_moving_average:
+          window_size: 10
+          send_every: 5
+  - platform: template
+    name: "Fuellstand"
+    id: level
+    unit_of_measurement: "%"
+    lambda: |-
+      return (((( id(distance).state - 0.37 )/0.88)*-100)+100);
+    update_interval: 1s
+
+font:
+  - file: "roboto.ttf"
+    id: fontA
+    size: 20
+
+display:
+  - platform: ssd1306_i2c
+    model: "SSD1306 128x64"
+    reset_pin: 16
+    address: 0x3C
+    rotation: 90
+    update_interval: 1s
+    lambda: |-
+      it.printf(it.get_width() / 2, 5, id(fontA), TextAlign::TOP_CENTER, "%.0f", id(level).state );
+      it.printf(it.get_width() / 2, 55, id(fontA), TextAlign::TOP_CENTER, "%.2fm", id(distance).state );
+    

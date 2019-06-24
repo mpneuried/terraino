@@ -1,0 +1,33 @@
+{
+  "arduino_version": "espressif32@1.6.0", 
+  "address": "terrasse_interface.local", 
+  "storage_version": 1, 
+  "esphome_version": "1.13.6", 
+  "build_path": "terrasse_interface", 
+  "name": "terrasse_interface", 
+  "loaded_integrations": [
+    "api", 
+    "binary_sensor", 
+    "display", 
+    "esp32_touch", 
+    "esphome", 
+    "font", 
+    "homeassistant", 
+    "i2c", 
+    "json", 
+    "logger", 
+    "network", 
+    "ota", 
+    "sensor", 
+    "ssd1306_base", 
+    "ssd1306_i2c", 
+    "time", 
+    "uart", 
+    "web_server", 
+    "wifi"
+  ], 
+  "firmware_bin_path": "terrasse_interface/.pioenvs/terrasse_interface/firmware.bin", 
+  "board": "ttgo-lora32-v1", 
+  "esp_platform": "ESP32", 
+  "src_version": 1
+}

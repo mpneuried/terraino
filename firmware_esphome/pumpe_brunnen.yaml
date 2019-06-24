@@ -1,0 +1,64 @@
+esphomeyaml:
+  name: 'pumpe_brunnen'
+  platform: ESP8266
+  board: esp01_1m
+
+wifi:
+  ssid: 'Catwoman'
+  password: 'qct25ssvfj97'
+  # manual_ip:
+  #   # Set this to the IP of the ESP
+  #   static_ip: 192.168.1.48
+  #   gateway: 192.168.1.1
+  #   # The subnet of the network. 255.255.255.0 works for most home networks.
+  #   subnet: 255.255.255.0
+
+# Enable logging
+logger:
+  baud_rate: 0
+
+uart:
+  rx_pin: RX
+  baud_rate: 4800
+
+# Enable Home Assistant API
+api:
+  password: 'xrdzrtfsx&Rdq07'
+
+ota:
+  password: 'xrdzrtfsx&Rdq07'
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+# web_server:
+#   port: 80
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Pumpe Brunnen Taster"
+    on_press:
+      - switch.toggle: pumpe_brunnen_relay
+
+switch:
+  - platform: gpio
+    name: "Pumpe Brunnen Relay"
+    pin: GPIO12
+    id: pumpe_brunnen_relay
+
+status_led:
+  pin: GPIO13
+
+sensor:
+  - platform: cse7766
+    current:
+      name: "Pumpe Brunnen Strom"
+    voltage:
+      name: "Pumpe Brunnen Spannung"
+    power:
+      name: "Pumpe Brunnen Leistung"

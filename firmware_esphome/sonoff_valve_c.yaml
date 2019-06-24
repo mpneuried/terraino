@@ -1,0 +1,91 @@
+esphomeyaml:
+  name: 'sonoff_valve_c'
+  platform: ESP8266
+  board: esp01_1m
+
+wifi:
+  ssid: 'Catwoman'
+  password: 'qct25ssvfj97'
+ # manual_ip:
+    # Set this to the IP of the ESP
+    #static_ip: 192.168.8.108
+    #gateway: 192.168.8.1
+    # The subnet of the network. 255.255.255.0 works for most home networks.
+    #subnet: 255.255.255.0
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: 'xrdzrtfsx&Rdq07'
+
+ota:
+  password: 'xrdzrtfsx&Rdq07'
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+web_server:
+  port: 80
+
+binary_sensor:
+- platform: gpio
+  pin:
+    number: GPIO10
+    inverted: true
+  id: button
+  on_press:
+    then:
+      # logic for cycling through movements: open->stop->close->stop->...
+      - lambda: |
+          if (id(valve).state == cover::COVER_OPEN) {
+            if (id(open).state){
+              // valve is in opening movement, stop it
+              id(valve).stop();
+            } else {
+              // valve has finished opening, close it
+              id(valve).close();
+            }
+          } else {
+            if (id(close).state){
+              // valve is in closing movement, stop it
+              id(valve).stop();
+            } else {
+              // valve has finished closing, open it
+              id(valve).open();
+            }
+          }
+
+switch:
+- platform: gpio
+  pin: GPIO12
+  id: open
+- platform: gpio
+  pin: GPIO5
+  id: close
+
+cover:
+- platform: template
+  name: "Ventil"
+  id: valve
+  open_action:
+    # cancel potential previous movement
+    - switch.turn_off: close
+    # perform movement
+    - switch.turn_on: open
+    # wait until valve is open
+    - delay: 13s
+    # turn of relay to prevent keeping the motor powered
+    - switch.turn_off: open
+  close_action:
+    - switch.turn_off: open
+    - switch.turn_on: close
+    - delay: 13s
+    - switch.turn_off: close
+  stop_action:
+    - switch.turn_off: open
+    - switch.turn_off: close
+  optimistic: True
+  assumed_state: True
