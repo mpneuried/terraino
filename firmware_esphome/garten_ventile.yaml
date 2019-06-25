@@ -92,6 +92,7 @@ switch:
     name: "Ventil 2"
     pin: GPIO5
     id: garten_ventile_relay2
+    interlock: *interlock_group
     restore_mode: RESTORE_DEFAULT_OFF
   - platform: gpio
     name: "Ventil 3"

@@ -42,7 +42,7 @@ sensor:
     echo_pin: 14
     id: distance
     name: "Ultrasonic Sensor"
-    update_interval: 1s
+    update_interval: 60s
     unit_of_measurement: "m"
     filters:
       - sliding_window_moving_average:
@@ -53,8 +53,8 @@ sensor:
     id: level
     unit_of_measurement: "%"
     lambda: |-
-      return (((( id(distance).state - 0.37 )/0.88)*-100)+100);
-    update_interval: 1s
+      return (((( id(distance).state - 0.29 )/0.80)*-100)+100);
+    update_interval: 60s
 
 font:
   - file: "roboto.ttf"

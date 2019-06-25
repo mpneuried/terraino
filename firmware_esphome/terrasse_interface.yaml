@@ -78,6 +78,11 @@ sensor:
     name: "Automation state"
     internal: true
     entity_id: input_number.timer_terrasse
+  - platform: homeassistant
+    id: zisterne
+    name: "Zisterne Füllstand"
+    internal: true
+    entity_id: sensor.fuellstand
 
 font:
   - file: "roboto.ttf"
@@ -98,7 +103,15 @@ display:
     address: 0x3C
     update_interval: 1s
     lambda: |-
-      it.strftime(7, 108, id(fontBig), "%H:%M", id(homeassistant_time).now());
+      // it.strftime(38, 118, id(fontSmall), "%H:%M", id(homeassistant_time).now());
+      // zisterne
+      if (id(zisterne).state ) {
+        it.rectangle(0, 93, 20, 35);
+        it.filled_rectangle(0, 128-((id(zisterne).state / 100 ) * 35), 20 , ((id(zisterne).state / 100 ) * 35));
+        it.printf(23, 119, id(fontSmall), TextAlign::TOP_LEFT, "Zisterne:");
+        it.printf(23, 100, id(fontMid), TextAlign::TOP_LEFT, "%.1f%%", id(zisterne).state);
+      }
+      // terrassen timer
       static int cursor_a = 0;
       if (id(timer).state >= 0 && id(showtimer).state ) {
         it.printf(it.get_width() / 2,cursor_a, id(fontSmall), TextAlign::TOP_CENTER, "Terrasse:");
@@ -107,7 +120,8 @@ display:
         it.rectangle(0, cursor_a+35, it.get_width(), 6);
         it.filled_rectangle(0, cursor_a+35, ( id(timer).state / id(duration).state * it.get_width() ), 6);
       }
-      static int cursor_b = 65;
+      // brunnen timer
+      static int cursor_b = 50;
       if (id(timer_brunnen).state >= 0 && id(showtimer_brunnen).state ) {
         it.printf(it.get_width() / 2,cursor_b, id(fontSmall), TextAlign::TOP_CENTER, "Brunnen:");
         it.printf(it.get_width() / 2 - 1,cursor_b+12, id(fontMid), TextAlign::TOP_RIGHT, "%.0f", id(timer_brunnen).state);
