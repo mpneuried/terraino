@@ -36,11 +36,28 @@ i2c:
 esp32_touch:
   setup_mode: False
 
+remote_receiver:
+  pin: GPIO14
+  dump:
+    - rc_switch
+
+# remote_transmitter:
+#   pin: GPIO12
+#   carrier_duty_percent: 50%
+
 binary_sensor:
-  - platform: esp32_touch
-    name: "ESP32 Touch"
-    pin: GPIO15
-    threshold: 1000
+  - platform: gpio
+    pin: 27
+    id: toggle_automation
+    name: Toggle Automation
+  - platform: gpio
+    pin: 26
+    id: toggle_wasser_terrasse
+    name: Toggle Wasser Terrasse
+  - platform: status
+    id: connection_status
+    internal: false
+    name: "Interface Status"
   - platform: homeassistant
     id: showtimer
     name: "Terrassen Timer Show"
@@ -104,29 +121,33 @@ display:
     update_interval: 1s
     lambda: |-
       // it.strftime(38, 118, id(fontSmall), "%H:%M", id(homeassistant_time).now());
-      // zisterne
-      if (id(zisterne).state ) {
-        it.rectangle(0, 93, 20, 35);
-        it.filled_rectangle(0, 128-((id(zisterne).state / 100 ) * 35), 20 , ((id(zisterne).state / 100 ) * 35));
-        it.printf(23, 119, id(fontSmall), TextAlign::TOP_LEFT, "Zisterne:");
-        it.printf(23, 100, id(fontMid), TextAlign::TOP_LEFT, "%.1f%%", id(zisterne).state);
-      }
-      // terrassen timer
-      static int cursor_a = 0;
-      if (id(timer).state >= 0 && id(showtimer).state ) {
-        it.printf(it.get_width() / 2,cursor_a, id(fontSmall), TextAlign::TOP_CENTER, "Terrasse:");
-        it.printf(it.get_width() / 2 - 1,cursor_a+12, id(fontBig), TextAlign::TOP_RIGHT, "%.0f", id(timer).state);
-        it.printf(it.get_width() / 2 + 1,cursor_a+19, id(fontSmall), TextAlign::TOP_LEFT, "Min.");
-        it.rectangle(0, cursor_a+35, it.get_width(), 6);
-        it.filled_rectangle(0, cursor_a+35, ( id(timer).state / id(duration).state * it.get_width() ), 6);
-      }
-      // brunnen timer
-      static int cursor_b = 50;
-      if (id(timer_brunnen).state >= 0 && id(showtimer_brunnen).state ) {
-        it.printf(it.get_width() / 2,cursor_b, id(fontSmall), TextAlign::TOP_CENTER, "Brunnen:");
-        it.printf(it.get_width() / 2 - 1,cursor_b+12, id(fontMid), TextAlign::TOP_RIGHT, "%.0f", id(timer_brunnen).state);
-        it.printf(it.get_width() / 2 + 1,cursor_b+12, id(fontMid), TextAlign::TOP_LEFT, "Min.");
-        it.rectangle(0, cursor_b+30, it.get_width(), 4);
-        it.filled_rectangle(0, cursor_b+30, ( id(timer_brunnen).state / id(duration_brunnen).state * it.get_width() ), 4);
+      if( id( connection_status ).state ){
+        // zisterne
+        if (id(zisterne).state ) {
+          it.rectangle(0, 93, 20, 35);
+          it.filled_rectangle(0, 128-((id(zisterne).state / 100 ) * 35), 20 , ((id(zisterne).state / 100 ) * 35));
+          it.printf(23, 119, id(fontSmall), TextAlign::TOP_LEFT, "Zisterne:");
+          it.printf(23, 100, id(fontMid), TextAlign::TOP_LEFT, "%.1f%%", id(zisterne).state);
+        }
+        // terrassen timer
+        static int cursor_a = 0;
+        if (id(timer).state >= 0 && id(showtimer).state ) {
+          it.printf(it.get_width() / 2,cursor_a, id(fontSmall), TextAlign::TOP_CENTER, "Terrasse:");
+          it.printf(it.get_width() / 2 - 1,cursor_a+12, id(fontBig), TextAlign::TOP_RIGHT, "%.0f", id(timer).state);
+          it.printf(it.get_width() / 2 + 1,cursor_a+19, id(fontSmall), TextAlign::TOP_LEFT, "Min.");
+          it.rectangle(0, cursor_a+35, it.get_width(), 6);
+          it.filled_rectangle(0, cursor_a+35, ( id(timer).state / id(duration).state * it.get_width() ), 6);
+        }
+        // brunnen timer
+        static int cursor_b = 50;
+        if (id(timer_brunnen).state >= 0 && id(showtimer_brunnen).state ) {
+          it.printf(it.get_width() / 2,cursor_b, id(fontSmall), TextAlign::TOP_CENTER, "Brunnen:");
+          it.printf(it.get_width() / 2 - 1,cursor_b+12, id(fontMid), TextAlign::TOP_RIGHT, "%.0f", id(timer_brunnen).state);
+          it.printf(it.get_width() / 2 + 1,cursor_b+12, id(fontMid), TextAlign::TOP_LEFT, "Min.");
+          it.rectangle(0, cursor_b+30, it.get_width(), 4);
+          it.filled_rectangle(0, cursor_b+30, ( id(timer_brunnen).state / id(duration_brunnen).state * it.get_width() ), 4);
+        }
+      } else {
+        it.printf(it.get_width() / 2, ( it.get_height()/2) - 7, id(fontMid), TextAlign::TOP_CENTER, "OFFLINE");
       }
     
