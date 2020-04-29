@@ -27,7 +27,7 @@
     "express": "4.9.x",
     "extend": "1.2.x",
     "hyperquest": "0.2.x",
-    "jquery": "2.1.x",
+    "jquery": "3.5.x",
     "lodash": "2.4.x",
     "morgan": "1.3.x",
     "mpbasic": "0.0.x",
