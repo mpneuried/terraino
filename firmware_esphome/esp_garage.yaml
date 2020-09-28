@@ -1,0 +1,95 @@
+esphome:
+  name: garagentor
+  platform: ESP8266
+  board: nodemcuv2
+
+wifi:
+  ssid: "Catwoman"
+  password: "qct25ssvfj97"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Garagentor Fallback Hotspot"
+    password: "rVucmUGlUfxo"
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: "xrdzrtfsx&Rdq07"
+
+ota:
+  password: "xrdzrtfsx&Rdq07"
+
+web_server:
+  port: 80
+
+switch:
+  - platform: gpio
+    pin: D1
+    id: motor_pulse_relais
+  - platform: template
+    # name: "Garagentor Schalter"
+    optimistic: True
+    id: motor_pulse
+    turn_on_action:
+      - switch.turn_on: motor_pulse_relais
+      - delay: 500ms
+      - switch.turn_off: motor_pulse_relais
+
+binary_sensor:
+  - platform: gpio
+    id: endstop_open
+    # name: "Endstop Open"
+    # filters:
+    #   - delayed_on: 100ms
+    #   - delayed_off: 100ms
+    pin:
+      number: D5
+      mode: INPUT_PULLUP
+      inverted: True
+    on_state:
+      then:
+        - cover.template.publish:
+            id: cover_garagentor
+            state: OPEN
+  - platform: gpio
+    id: endstop_close
+    # name: "Endstop Close"
+    # filters:
+    #   - delayed_on: 100ms
+    #   - delayed_off: 100ms
+    pin:
+      number: D6
+      mode: INPUT_PULLUP
+      inverted: True
+    on_state:
+      then:
+        - cover.template.publish:
+            id: cover_garagentor
+            state: CLOSED
+
+cover:
+  - platform: template
+    id: cover_garagentor
+    name: "Garagentor"
+    open_action:
+      - switch.turn_on: motor_pulse
+    close_action:
+      - switch.turn_on: motor_pulse
+    stop_action:
+      - switch.turn_on: motor_pulse
+    #optimistic: true
+
+sensor:
+  - platform: dht
+    pin: D0
+    model: DHT11
+    temperature:
+      name: "Garage Temperatur"
+    humidity:
+      name: "Garage Feuchte"
+    update_interval: 10s

@@ -1,0 +1,31 @@
+{
+  "storage_version": 1,
+  "name": "ble_tracker",
+  "comment": null,
+  "esphome_version": "1.15.2",
+  "src_version": 1,
+  "arduino_version": "espressif32@1.12.4",
+  "address": "ble_tracker.local",
+  "esp_platform": "ESP32",
+  "board": "nodemcu-32s",
+  "build_path": "ble_tracker",
+  "firmware_bin_path": "ble_tracker/.pioenvs/ble_tracker/firmware.bin",
+  "loaded_integrations": [
+    "api",
+    "async_tcp",
+    "ble_scanner",
+    "captive_portal",
+    "esp32_ble_tracker",
+    "esphome",
+    "json",
+    "logger",
+    "network",
+    "ota",
+    "ruuvi_ble",
+    "text_sensor",
+    "web_server",
+    "web_server_base",
+    "wifi",
+    "xiaomi_ble"
+  ]
+}

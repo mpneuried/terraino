@@ -1,0 +1,9 @@
+
+buro:
+  name: Kitchen
+  entities:
+    - binary_sensor.buro_rm_s_d_82
+    - binary_sensor.buro_rm_s_d_83
+    - cover.buro_bu_l_48
+    - cover.buro_bu_r_45
+    - sensor.buro_rm_t_d_84

@@ -1,0 +1,1432 @@
+{
+    "data": {
+        "config": {
+            "title": "Zu Hause",
+            "views": [
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "entities": [
+                                {
+                                    "entity": "sun.sun"
+                                },
+                                {
+                                    "entity": "device_tracker.iphone_julia"
+                                },
+                                {
+                                    "entity": "device_tracker.iphone_mathias"
+                                }
+                            ],
+                            "show_name": true,
+                            "show_state": true,
+                            "type": "glance"
+                        },
+                        {
+                            "entity": "weather.dark_sky",
+                            "type": "weather-forecast"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "entity": "scene.gesamtes_haus_good_morning_2",
+                                    "name": "Guten Morgen",
+                                    "tap_action": {
+                                        "action": "call-service",
+                                        "service": "scene.turn_on",
+                                        "service_data": {
+                                            "entity_id": "scene.gesamtes_haus_good_morning_2"
+                                        }
+                                    },
+                                    "type": "entity-button"
+                                },
+                                {
+                                    "entity": "scene.gesamtes_haus_good_night_1_2_2",
+                                    "tap_action": {
+                                        "action": "call-service",
+                                        "service": "scene.turn_on",
+                                        "service_data": {
+                                            "entity_id": "scene.gesamtes_haus_good_night_1_2_2"
+                                        }
+                                    },
+                                    "type": "entity-button"
+                                },
+                                {
+                                    "entity": "scene.wohnzimmer_sonnenschutz",
+                                    "tap_action": {
+                                        "action": "call-service",
+                                        "service": "scene.turn_on",
+                                        "service_data": {
+                                            "entity_id": "scene.wohnzimmer_sonnenschutz"
+                                        }
+                                    },
+                                    "type": "entity-button"
+                                }
+                            ],
+                            "type": "horizontal-stack"
+                        },
+                        {
+                            "columns": 3,
+                            "entities": [
+                                {
+                                    "entity": "sensor.vallox_outdoor_air",
+                                    "name": "Au\u00dfentemperatur"
+                                },
+                                {
+                                    "entity": "sensor.vallox_exhaust_air",
+                                    "name": "Abluft"
+                                },
+                                {
+                                    "entity": "sensor.vallox_supply_air",
+                                    "name": "Zuluft"
+                                },
+                                {
+                                    "entity": "sensor.vallox_humidity",
+                                    "name": "Feuchtigkeit"
+                                },
+                                {
+                                    "entity": "sensor.vallox_fan_speed",
+                                    "name": "Ventilator"
+                                },
+                                {
+                                    "entity": "sensor.vallox_current_profile"
+                                }
+                            ],
+                            "show_name": true,
+                            "show_state": true,
+                            "title": "L\u00fcftung",
+                            "type": "glance"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "sensor.dark_sky_temperature",
+                                    "name": "Temperatur"
+                                }
+                            ],
+                            "hours_to_show": 720,
+                            "refresh_interval": 180,
+                            "type": "history-graph"
+                        }
+                    ],
+                    "icon": "mdi:home",
+                    "path": "default_view",
+                    "title": "Home"
+                },
+                {
+                    "badges": [
+                        "binary_sensor.wohnzimmer_rm_s_c_78",
+                        "binary_sensor.wohnzimmer_rm_s_c_79",
+                        "cover.wohnzimmer_wz_l_5",
+                        "cover.wohnzimmer_wz_r_9",
+                        "media_player.receiver",
+                        "sensor.wohnzimmer_rm_t_c_80"
+                    ],
+                    "cards": [
+                        {
+                            "entity": "media_player.receiver",
+                            "type": "media-control"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "cover.wohnzimmer_wz_l_5"
+                                },
+                                {
+                                    "entity": "cover.wohnzimmer_wz_r_9"
+                                },
+                                {
+                                    "entity": "cover.esszimmer_ez_l_66"
+                                },
+                                {
+                                    "entity": "cover.esszimmer_ez_r_15"
+                                },
+                                {
+                                    "entity": "cover.kuche_ku_l_57"
+                                },
+                                {
+                                    "entity": "cover.kuche_ku_r_33"
+                                },
+                                {
+                                    "entity": "vacuum.alfred"
+                                },
+                                {
+                                    "entity": "switch.alfred_schedule"
+                                }
+                            ],
+                            "show_header_toggle": false,
+                            "theme": "Backend-selected",
+                            "type": "entities"
+                        },
+                        {
+                            "detail": 2,
+                            "entity": "sensor.wohnzimmer_rm_t_c_80",
+                            "graph": "line",
+                            "name": "Wohnzimmer",
+                            "theme": "default",
+                            "type": "sensor"
+                        },
+                        {
+                            "camera_image": "camera.alfred_cleaning_map",
+                            "entity": "vacuum.alfred",
+                            "hold_action": {
+                                "service": "switch.alfred_schedule"
+                            },
+                            "tap_action": {
+                                "service": "switch.alfred_schedule"
+                            },
+                            "type": "picture-entity"
+                        },
+                        {
+                            "entity": "scene.wohnzimmer_sonnenschutz",
+                            "hold_action": {
+                                "action": "more-info"
+                            },
+                            "icon": "mdi:sunglasses",
+                            "icon_height": "50px",
+                            "name": "Sonnenschutz",
+                            "show_icon": true,
+                            "show_name": true,
+                            "tap_action": {
+                                "action": "toggle"
+                            },
+                            "type": "entity-button"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "sensor.wohnzimmer_rm_t_c_80",
+                                    "name": "Temperatur"
+                                }
+                            ],
+                            "hours_to_show": 720,
+                            "refresh_interval": 180,
+                            "type": "history-graph"
+                        }
+                    ],
+                    "icon": "",
+                    "panel": false,
+                    "title": "Wohnen"
+                },
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "cards": [
+                                {
+                                    "cards": [
+                                        {
+                                            "entity": "switch.bewaesserung_automation",
+                                            "icon": "mdi:auto-fix",
+                                            "icon_height": "60px",
+                                            "name": "Start Automatik",
+                                            "tap_action": {
+                                                "action": "call-service",
+                                                "service": "switch.toggle",
+                                                "service_data": {
+                                                    "entity_id": "switch.bewaesserung_automation"
+                                                }
+                                            },
+                                            "type": "entity-button"
+                                        },
+                                        {
+                                            "entity": "switch.bewasserung_zeitschaltuhr",
+                                            "icon": "mdi:timer",
+                                            "icon_height": "60px",
+                                            "name": "Zeitschaltuhr",
+                                            "tap_action": {
+                                                "action": "call-service",
+                                                "service": "switch.toggle",
+                                                "service_data": {
+                                                    "entity_id": "switch.bewasserung_zeitschaltuhr"
+                                                }
+                                            },
+                                            "type": "entity-button"
+                                        }
+                                    ],
+                                    "type": "horizontal-stack"
+                                }
+                            ],
+                            "type": "vertical-stack"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "entity": "switch.garten_zone1",
+                                    "hold_action": {
+                                        "action": "more-info"
+                                    },
+                                    "icon": "mdi:clock-start",
+                                    "icon_height": "40px",
+                                    "name": "Garage Z1",
+                                    "show_icon": true,
+                                    "show_name": true,
+                                    "tap_action": {
+                                        "action": "toggle"
+                                    },
+                                    "type": "entity-button"
+                                },
+                                {
+                                    "entity": "switch.garten_zone2",
+                                    "hold_action": {
+                                        "action": "more-info"
+                                    },
+                                    "icon": "mdi:clock-start",
+                                    "icon_height": "40px",
+                                    "name": "Regner Mauer Z2",
+                                    "show_icon": true,
+                                    "show_name": true,
+                                    "tap_action": {
+                                        "action": "toggle"
+                                    },
+                                    "type": "entity-button"
+                                },
+                                {
+                                    "entity": "switch.garten_zone3",
+                                    "hold_action": {
+                                        "action": "more-info"
+                                    },
+                                    "icon": "mdi:clock-start",
+                                    "icon_height": "40px",
+                                    "name": "Regner Terrasse Z3",
+                                    "show_icon": true,
+                                    "show_name": true,
+                                    "tap_action": {
+                                        "action": "toggle"
+                                    },
+                                    "type": "entity-button"
+                                },
+                                {
+                                    "entity": "switch.garten_zone4",
+                                    "hold_action": {
+                                        "action": "more-info"
+                                    },
+                                    "icon": "mdi:clock-start",
+                                    "icon_height": "40px",
+                                    "name": "Regner Spielturm Z4",
+                                    "show_icon": true,
+                                    "show_name": true,
+                                    "tap_action": {
+                                        "action": "toggle"
+                                    },
+                                    "type": "entity-button"
+                                }
+                            ],
+                            "type": "horizontal-stack"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "entity": "sensor.fuellstand",
+                                    "max": 100,
+                                    "min": 0,
+                                    "name": "Zisterne",
+                                    "severity": {
+                                        "green": 80,
+                                        "red": 20,
+                                        "yellow": 50
+                                    },
+                                    "theme": "default",
+                                    "type": "gauge"
+                                },
+                                {
+                                    "entity": "sensor.fuellstand",
+                                    "graph": "line",
+                                    "hours_to_show": 24,
+                                    "name": "Zisternen F\u00fcllstand",
+                                    "type": "sensor",
+                                    "unit": "%"
+                                }
+                            ],
+                            "type": "horizontal-stack"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "input_number.state_watering_automation"
+                                },
+                                {
+                                    "entity": "input_number.duration_watering",
+                                    "name": "Gesamt Dauer"
+                                },
+                                {
+                                    "entity": "input_number.duration_factor_zone1",
+                                    "name": "Z1 Regner Garage"
+                                },
+                                {
+                                    "entity": "sensor.duration_zone1_min",
+                                    "icon": "mdi:clock-end",
+                                    "name": "Dauer"
+                                },
+                                {
+                                    "entity": "input_number.duration_factor_zone2",
+                                    "name": "Z2 Regner Mauer"
+                                },
+                                {
+                                    "entity": "sensor.duration_zone2_min",
+                                    "icon": "mdi:clock-end",
+                                    "name": "Dauer"
+                                },
+                                {
+                                    "entity": "input_number.duration_factor_zone3",
+                                    "name": "Z3 Regner Terrasse"
+                                },
+                                {
+                                    "entity": "sensor.duration_zone3_min",
+                                    "icon": "mdi:clock-end",
+                                    "name": "Dauer"
+                                },
+                                {
+                                    "entity": "input_number.duration_factor_zone4",
+                                    "name": "Z4 Regner Spielturm"
+                                },
+                                {
+                                    "entity": "sensor.duration_zone4_min",
+                                    "icon": "mdi:clock-end",
+                                    "name": "Dauer"
+                                },
+                                {
+                                    "entity": "sensor.factor_sum_watering",
+                                    "icon": "mdi:circle-slice-8",
+                                    "name": "Summe"
+                                }
+                            ],
+                            "show_header_toggle": false,
+                            "title": "Einstellungen",
+                            "type": "entities"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "cards": [
+                                        {
+                                            "entity": "switch.pumpe_brunnen_relay",
+                                            "hold_action": {
+                                                "action": "more-info"
+                                            },
+                                            "icon": "mdi:water-pump",
+                                            "icon_height": "50px",
+                                            "name": "Brunnen",
+                                            "show_icon": true,
+                                            "show_name": true,
+                                            "tap_action": {
+                                                "action": "toggle"
+                                            },
+                                            "type": "entity-button"
+                                        },
+                                        {
+                                            "card": {
+                                                "entities": [
+                                                    {
+                                                        "entity": "automation.pumpen_timer_brunnen",
+                                                        "name": "Timer Aktiv"
+                                                    },
+                                                    {
+                                                        "entity": "input_number.timer_pumpe_brunnen",
+                                                        "name": "Timer"
+                                                    },
+                                                    {
+                                                        "entity": "sensor.pumpe_brunnen_leistung",
+                                                        "name": "Leistung"
+                                                    }
+                                                ],
+                                                "show_header_toggle": false,
+                                                "type": "entities"
+                                            },
+                                            "conditions": [
+                                                {
+                                                    "entity": "binary_sensor.show_timer_brunnen",
+                                                    "state": "off"
+                                                }
+                                            ],
+                                            "type": "conditional"
+                                        },
+                                        {
+                                            "card": {
+                                                "entities": [
+                                                    {
+                                                        "entity": "sensor.timer_brunnen",
+                                                        "name": "Timer"
+                                                    },
+                                                    {
+                                                        "entity": "sensor.pumpe_brunnen_leistung",
+                                                        "name": "Leistung"
+                                                    }
+                                                ],
+                                                "show_header_toggle": false,
+                                                "type": "entities"
+                                            },
+                                            "conditions": [
+                                                {
+                                                    "entity": "binary_sensor.show_timer_brunnen",
+                                                    "state": "on"
+                                                }
+                                            ],
+                                            "type": "conditional"
+                                        },
+                                        {
+                                            "entities": [
+                                                {
+                                                    "entity": "sensor.pumpe_brunnen_leistung",
+                                                    "name": "Leistung"
+                                                }
+                                            ],
+                                            "hours_to_show": 4,
+                                            "refresh_interval": 30,
+                                            "type": "history-graph"
+                                        }
+                                    ],
+                                    "type": "vertical-stack"
+                                }
+                            ],
+                            "type": "horizontal-stack"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "cards": [
+                                        {
+                                            "entity": "switch.ventil_1",
+                                            "icon": "mdi:arrow-collapse-down",
+                                            "name": "Garage",
+                                            "tap_action": {
+                                                "action": "call-service",
+                                                "service": "switch.toggle",
+                                                "service_data": {
+                                                    "entity_id": "switch.ventil_1"
+                                                }
+                                            },
+                                            "type": "entity-button"
+                                        },
+                                        {
+                                            "entity": "switch.ventil_2",
+                                            "icon": "mdi:arrow-collapse-down",
+                                            "name": "Hecken Regner",
+                                            "tap_action": {
+                                                "action": "call-service",
+                                                "service": "switch.toggle",
+                                                "service_data": {
+                                                    "entity_id": "switch.ventil_2"
+                                                }
+                                            },
+                                            "type": "entity-button"
+                                        },
+                                        {
+                                            "entity": "switch.ventil_3",
+                                            "icon": "mdi:arrow-collapse-down",
+                                            "name": "Hecken Spr\u00fcher",
+                                            "tap_action": {
+                                                "action": "call-service",
+                                                "service": "switch.toggle",
+                                                "service_data": {
+                                                    "entity_id": "switch.ventil_3"
+                                                }
+                                            },
+                                            "type": "entity-button"
+                                        },
+                                        {
+                                            "entity": "switch.ventil_4",
+                                            "icon": "mdi:arrow-collapse-down",
+                                            "name": "Terrasse",
+                                            "tap_action": {
+                                                "action": "call-service",
+                                                "service": "switch.toggle",
+                                                "service_data": {
+                                                    "entity_id": "switch.ventil_4"
+                                                }
+                                            },
+                                            "type": "entity-button"
+                                        },
+                                        {
+                                            "entity": "switch.pumpe_zisterne_relay",
+                                            "hold_action": {
+                                                "action": "more-info"
+                                            },
+                                            "icon": "mdi:water-pump",
+                                            "icon_height": "50px",
+                                            "name": "Zisterne",
+                                            "show_icon": true,
+                                            "show_name": true,
+                                            "tap_action": {
+                                                "action": "toggle"
+                                            },
+                                            "type": "entity-button"
+                                        }
+                                    ],
+                                    "type": "horizontal-stack"
+                                }
+                            ],
+                            "type": "vertical-stack"
+                        }
+                    ],
+                    "title": "Garten"
+                },
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "entities": [
+                                {
+                                    "entity": "sensor.schlafzimmer_rm_t_f_92",
+                                    "name": "Temperatur"
+                                },
+                                {
+                                    "entity": "cover.schlafzimmer_sz_36",
+                                    "name": "Rolladen"
+                                }
+                            ],
+                            "type": "entities"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "sensor.schlafzimmer_rm_t_f_92",
+                                    "name": "Temperatur"
+                                }
+                            ],
+                            "hours_to_show": 720,
+                            "refresh_interval": 180,
+                            "type": "history-graph"
+                        }
+                    ],
+                    "icon": "",
+                    "panel": false,
+                    "title": "Schlafzimmer"
+                },
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "entities": [
+                                {
+                                    "entity": "sensor.kinderzimmer_2_pia_rm_t_b_76",
+                                    "name": "Temperatur"
+                                },
+                                {
+                                    "entity": "cover.kinderzimmer_2_pia_k2_r_30",
+                                    "name": "Rolladen rechts"
+                                },
+                                {
+                                    "entity": "cover.kinderzimmer_2_pia_k2_l_60",
+                                    "name": "Rolladen links"
+                                }
+                            ],
+                            "type": "entities"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "sensor.kinderzimmer_2_pia_rm_t_b_76",
+                                    "name": "Temperatur"
+                                }
+                            ],
+                            "hours_to_show": 720,
+                            "refresh_interval": 180,
+                            "type": "history-graph"
+                        }
+                    ],
+                    "title": "Pia"
+                },
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "entities": [
+                                {
+                                    "entity": "sensor.kinderzimmer_1_lea_rm_t_e_88",
+                                    "name": "Temperatur"
+                                },
+                                {
+                                    "entity": "cover.kinderzimmer_1_lea_k1_r_27",
+                                    "name": "Rolladen rechts"
+                                },
+                                {
+                                    "entity": "cover.kinderzimmer_1_lea_k1_l_51",
+                                    "name": "Rolladen links"
+                                }
+                            ],
+                            "type": "entities"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "sensor.kinderzimmer_1_lea_rm_t_e_88",
+                                    "name": "Temperatur"
+                                }
+                            ],
+                            "hours_to_show": 720,
+                            "refresh_interval": 180,
+                            "type": "history-graph"
+                        }
+                    ],
+                    "title": "Lea"
+                },
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "entities": [
+                                {
+                                    "entity": "sensor.buro_rm_t_d_84",
+                                    "name": "Temperatur"
+                                },
+                                {
+                                    "entity": "cover.buro_bu_l_48",
+                                    "name": "Rolladen links"
+                                },
+                                {
+                                    "entity": "cover.buro_bu_r_45",
+                                    "name": "Rolladen rechts"
+                                }
+                            ],
+                            "show_header_toggle": false,
+                            "title": "Roll\u00e4den",
+                            "type": "entities"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "sensor.buro_rm_t_d_84",
+                                    "name": "Temperatur"
+                                }
+                            ],
+                            "hours_to_show": 720,
+                            "refresh_interval": 180,
+                            "type": "history-graph"
+                        }
+                    ],
+                    "icon": "",
+                    "panel": false,
+                    "title": "B\u00fcro"
+                },
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "entities": [
+                                {
+                                    "entity": "cover.gastezimmer_gz_24"
+                                }
+                            ],
+                            "type": "entities"
+                        }
+                    ],
+                    "title": "G\u00e4stezimmer"
+                },
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "cards": [
+                                {
+                                    "entity": "sensor.processor_use",
+                                    "max": 100,
+                                    "min": 0,
+                                    "name": "CPU",
+                                    "severity": {
+                                        "green": 0,
+                                        "red": 80,
+                                        "yellow": 30
+                                    },
+                                    "theme": "default",
+                                    "type": "gauge",
+                                    "unit": "%"
+                                },
+                                {
+                                    "entity": "sensor.cpu_temperature",
+                                    "max": 100,
+                                    "min": 0,
+                                    "name": "CPU",
+                                    "severity": {
+                                        "green": 30,
+                                        "red": 70,
+                                        "yellow": 50
+                                    },
+                                    "theme": "default",
+                                    "type": "gauge"
+                                },
+                                {
+                                    "entity": "sensor.memory_use_percent",
+                                    "max": 100,
+                                    "min": 0,
+                                    "name": "Memory",
+                                    "severity": {
+                                        "green": 0,
+                                        "red": 80,
+                                        "yellow": 50
+                                    },
+                                    "theme": "default",
+                                    "type": "gauge",
+                                    "unit": "%"
+                                }
+                            ],
+                            "type": "horizontal-stack"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "sensor.network_throughput_in_eth0",
+                                    "name": "Network in"
+                                },
+                                {
+                                    "entity": "sensor.network_throughput_out_eth0",
+                                    "name": "Network out"
+                                },
+                                {
+                                    "entity": "sensor.processor_use",
+                                    "name": "CPU"
+                                },
+                                {
+                                    "entity": "sensor.cpu_temperature",
+                                    "name": "CPU Temperatur"
+                                },
+                                {
+                                    "entity": "sensor.memory_use_percent",
+                                    "name": "Memory"
+                                }
+                            ],
+                            "hours_to_show": 24,
+                            "refresh_interval": 180,
+                            "type": "history-graph"
+                        },
+                        {
+                            "card": {
+                                "entities": [
+                                    {
+                                        "entity": "updater.updater"
+                                    }
+                                ],
+                                "type": "entities"
+                            },
+                            "conditions": [
+                                {
+                                    "entity": "updater.updater",
+                                    "state": "on"
+                                }
+                            ],
+                            "type": "conditional"
+                        },
+                        {
+                            "entity": "sensor.disk_free",
+                            "graph": "line",
+                            "hours_to_show": 168,
+                            "type": "sensor"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "sensor.wohnzimmer_rm_t_c_80",
+                                    "name": "Wohnzimmer"
+                                },
+                                {
+                                    "entity": "sensor.buro_rm_t_d_84",
+                                    "name": "B\u00fcro"
+                                },
+                                {
+                                    "entity": "sensor.schlafzimmer_rm_t_f_92",
+                                    "name": "Schlafzimmer"
+                                },
+                                {
+                                    "entity": "sensor.kinderzimmer_2_pia_rm_t_b_76",
+                                    "name": "Pia"
+                                },
+                                {
+                                    "entity": "sensor.kinderzimmer_1_lea_rm_t_e_88",
+                                    "name": "Lea"
+                                }
+                            ],
+                            "hours_to_show": 720,
+                            "refresh_interval": 180,
+                            "type": "history-graph"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "sensor.fuellstand",
+                                    "name": "Zisterne F\u00fcllstand"
+                                },
+                                {
+                                    "entity": "sensor.ultrasonic_sensor",
+                                    "name": "Zisterne Abstand"
+                                }
+                            ],
+                            "hours_to_show": 72,
+                            "refresh_interval": 240,
+                            "type": "history-graph"
+                        }
+                    ],
+                    "icon": "mdi:tune",
+                    "title": "System"
+                },
+                {
+                    "badges": [],
+                    "cards": [
+                        {
+                            "cards": [
+                                {
+                                    "cards": [
+                                        {
+                                            "entity": "switch.bewaesserung_automation",
+                                            "icon": "mdi:water",
+                                            "name": "Start Automatik",
+                                            "tap_action": {
+                                                "action": "call-service",
+                                                "service": "switch.toggle",
+                                                "service_data": {
+                                                    "entity_id": "switch.bewaesserung_automation"
+                                                }
+                                            },
+                                            "type": "entity-button"
+                                        },
+                                        {
+                                            "entity": "switch.bewasserung_zeitschaltuhr",
+                                            "icon": "mdi:timer",
+                                            "name": "Zeitschaltuhr",
+                                            "tap_action": {
+                                                "action": "call-service",
+                                                "service": "switch.toggle",
+                                                "service_data": {
+                                                    "entity_id": "switch.bewasserung_zeitschaltuhr"
+                                                }
+                                            },
+                                            "type": "entity-button"
+                                        }
+                                    ],
+                                    "type": "horizontal-stack"
+                                }
+                            ],
+                            "type": "vertical-stack"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "cards": [
+                                        {
+                                            "entity": "switch.ventil_1",
+                                            "icon": "mdi:arrow-collapse-down",
+                                            "name": "Garage",
+                                            "tap_action": {
+                                                "action": "call-service",
+                                                "service": "switch.toggle",
+                                                "service_data": {
+                                                    "entity_id": "switch.ventil_1"
+                                                }
+                                            },
+                                            "type": "entity-button"
+                                        },
+                                        {
+                                            "entity": "switch.ventil_2",
+                                            "icon": "mdi:arrow-collapse-down",
+                                            "name": "Hecken Regner",
+                                            "tap_action": {
+                                                "action": "call-service",
+                                                "service": "switch.toggle",
+                                                "service_data": {
+                                                    "entity_id": "switch.ventil_2"
+                                                }
+                                            },
+                                            "type": "entity-button"
+                                        },
+                                        {
+                                            "entity": "switch.ventil_3",
+                                            "icon": "mdi:arrow-collapse-down",
+                                            "name": "Hecken Spr\u00fcher",
+                                            "tap_action": {
+                                                "action": "call-service",
+                                                "service": "switch.toggle",
+                                                "service_data": {
+                                                    "entity_id": "switch.ventil_3"
+                                                }
+                                            },
+                                            "type": "entity-button"
+                                        },
+                                        {
+                                            "entity": "switch.ventil_4",
+                                            "icon": "mdi:arrow-collapse-down",
+                                            "name": "Terrasse",
+                                            "tap_action": {
+                                                "action": "call-service",
+                                                "service": "switch.toggle",
+                                                "service_data": {
+                                                    "entity_id": "switch.ventil_4"
+                                                }
+                                            },
+                                            "type": "entity-button"
+                                        }
+                                    ],
+                                    "type": "horizontal-stack"
+                                }
+                            ],
+                            "type": "vertical-stack"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "entity": "sensor.fuellstand",
+                                    "max": 100,
+                                    "min": 0,
+                                    "name": "Zisterne",
+                                    "severity": {
+                                        "green": 80,
+                                        "red": 20,
+                                        "yellow": 50
+                                    },
+                                    "theme": "default",
+                                    "type": "gauge"
+                                },
+                                {
+                                    "entity": "sensor.fuellstand",
+                                    "graph": "line",
+                                    "hours_to_show": 48,
+                                    "name": "Zisternen F\u00fcllstand",
+                                    "type": "sensor",
+                                    "unit": "%"
+                                }
+                            ],
+                            "type": "horizontal-stack"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "cards": [
+                                        {
+                                            "action": "call-service",
+                                            "entity": "switch.ventil_1",
+                                            "icon": "mdi:arrow-collapse-down",
+                                            "icon_height": "50px",
+                                            "name": "Regner Garage",
+                                            "service": "switch.toggle",
+                                            "service_data": {
+                                                "entity_id": "switch.ventil_1"
+                                            },
+                                            "tap_action": {
+                                                "action": "toggle"
+                                            },
+                                            "type": "entity-button"
+                                        },
+                                        {
+                                            "card": {
+                                                "entities": [
+                                                    {
+                                                        "entity": "automation.regner_garage",
+                                                        "name": "Timer Aktiv"
+                                                    },
+                                                    {
+                                                        "entity": "input_number.timer_rasen_garage",
+                                                        "name": "Timer"
+                                                    }
+                                                ],
+                                                "show_header_toggle": false,
+                                                "type": "entities"
+                                            },
+                                            "conditions": [
+                                                {
+                                                    "entity": "binary_sensor.show_timer_regner_garager",
+                                                    "state": "off"
+                                                }
+                                            ],
+                                            "type": "conditional"
+                                        },
+                                        {
+                                            "card": {
+                                                "entities": [
+                                                    {
+                                                        "entity": "sensor.timer_regner_garager",
+                                                        "name": "Timer"
+                                                    }
+                                                ],
+                                                "show_header_toggle": false,
+                                                "type": "entities"
+                                            },
+                                            "conditions": [
+                                                {
+                                                    "entity": "binary_sensor.show_timer_regner_garager",
+                                                    "state": "on"
+                                                }
+                                            ],
+                                            "type": "conditional"
+                                        }
+                                    ],
+                                    "type": "vertical-stack"
+                                }
+                            ],
+                            "type": "horizontal-stack"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "cards": [
+                                        {
+                                            "action": "call-service",
+                                            "entity": "switch.ventil_2",
+                                            "icon": "mdi:arrow-collapse-down",
+                                            "icon_height": "50px",
+                                            "name": "Hecken Regner",
+                                            "service": "switch.toggle",
+                                            "service_data": {
+                                                "entity_id": "switch.ventil_2"
+                                            },
+                                            "tap_action": {
+                                                "action": "toggle"
+                                            },
+                                            "type": "entity-button"
+                                        },
+                                        {
+                                            "card": {
+                                                "entities": [
+                                                    {
+                                                        "entity": "automation.regner_hecken",
+                                                        "name": "Timer Aktiv"
+                                                    },
+                                                    {
+                                                        "entity": "input_number.timer_hecken_regner",
+                                                        "name": "Timer"
+                                                    }
+                                                ],
+                                                "show_header_toggle": false,
+                                                "type": "entities"
+                                            },
+                                            "conditions": [
+                                                {
+                                                    "entity": "binary_sensor.show_timer_regner_hecken",
+                                                    "state": "off"
+                                                }
+                                            ],
+                                            "type": "conditional"
+                                        },
+                                        {
+                                            "card": {
+                                                "entities": [
+                                                    {
+                                                        "entity": "sensor.timer_regner_hecken",
+                                                        "name": "Timer"
+                                                    }
+                                                ],
+                                                "show_header_toggle": false,
+                                                "type": "entities"
+                                            },
+                                            "conditions": [
+                                                {
+                                                    "entity": "binary_sensor.show_timer_regner_hecken",
+                                                    "state": "on"
+                                                }
+                                            ],
+                                            "type": "conditional"
+                                        }
+                                    ],
+                                    "type": "vertical-stack"
+                                }
+                            ],
+                            "type": "horizontal-stack"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "cards": [
+                                        {
+                                            "action": "call-service",
+                                            "entity": "switch.ventil_3",
+                                            "icon": "mdi:arrow-collapse-down",
+                                            "icon_height": "50px",
+                                            "name": "Hecken Spr\u00fcher",
+                                            "service": "switch.toggle",
+                                            "service_data": {
+                                                "entity_id": "switch.ventil_3"
+                                            },
+                                            "tap_action": {
+                                                "action": "toggle"
+                                            },
+                                            "type": "entity-button"
+                                        },
+                                        {
+                                            "card": {
+                                                "entities": [
+                                                    {
+                                                        "entity": "automation.regner_hecken",
+                                                        "name": "Timer Aktiv"
+                                                    },
+                                                    {
+                                                        "entity": "input_number.timer_hecken_sprueh",
+                                                        "name": "Timer"
+                                                    }
+                                                ],
+                                                "show_header_toggle": false,
+                                                "type": "entities"
+                                            },
+                                            "conditions": [
+                                                {
+                                                    "entity": "binary_sensor.show_timer_sprueh_hecken",
+                                                    "state": "off"
+                                                }
+                                            ],
+                                            "type": "conditional"
+                                        },
+                                        {
+                                            "card": {
+                                                "entities": [
+                                                    {
+                                                        "entity": "sensor.timer_sprueh_hecken",
+                                                        "name": "Timer"
+                                                    }
+                                                ],
+                                                "show_header_toggle": false,
+                                                "type": "entities"
+                                            },
+                                            "conditions": [
+                                                {
+                                                    "entity": "binary_sensor.show_timer_sprueh_hecken",
+                                                    "state": "on"
+                                                }
+                                            ],
+                                            "type": "conditional"
+                                        }
+                                    ],
+                                    "type": "vertical-stack"
+                                }
+                            ],
+                            "type": "horizontal-stack"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "cards": [
+                                        {
+                                            "action": "call-service",
+                                            "entity": "switch.ventil_4",
+                                            "icon": "mdi:arrow-collapse-down",
+                                            "icon_height": "50px",
+                                            "name": "Wasser Terrasse",
+                                            "service": "switch.toggle",
+                                            "service_data": {
+                                                "entity_id": "switch.ventil_4"
+                                            },
+                                            "tap_action": {
+                                                "action": "toggle"
+                                            },
+                                            "type": "entity-button"
+                                        },
+                                        {
+                                            "card": {
+                                                "entities": [
+                                                    {
+                                                        "entity": "automation.wasser_terrasse",
+                                                        "name": "Timer Aktiv"
+                                                    },
+                                                    {
+                                                        "entity": "input_number.timer_terrasse",
+                                                        "name": "Timer"
+                                                    }
+                                                ],
+                                                "show_header_toggle": false,
+                                                "type": "entities"
+                                            },
+                                            "conditions": [
+                                                {
+                                                    "entity": "binary_sensor.show_timer_wasser_terrasse",
+                                                    "state": "off"
+                                                }
+                                            ],
+                                            "type": "conditional"
+                                        },
+                                        {
+                                            "card": {
+                                                "entities": [
+                                                    {
+                                                        "entity": "sensor.timer_wasser_terrasse",
+                                                        "name": "Timer"
+                                                    }
+                                                ],
+                                                "show_header_toggle": false,
+                                                "type": "entities"
+                                            },
+                                            "conditions": [
+                                                {
+                                                    "entity": "binary_sensor.show_timer_wasser_terrasse",
+                                                    "state": "on"
+                                                }
+                                            ],
+                                            "type": "conditional"
+                                        }
+                                    ],
+                                    "type": "vertical-stack"
+                                }
+                            ],
+                            "type": "horizontal-stack"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "cards": [
+                                        {
+                                            "entity": "switch.pumpe_zisterne_relay",
+                                            "hold_action": {
+                                                "action": "more-info"
+                                            },
+                                            "icon": "mdi:water-pump",
+                                            "icon_height": "50px",
+                                            "name": "Zisterne",
+                                            "show_icon": true,
+                                            "show_name": true,
+                                            "tap_action": {
+                                                "action": "toggle"
+                                            },
+                                            "type": "entity-button"
+                                        },
+                                        {
+                                            "entities": [
+                                                {
+                                                    "entity": "sensor.pumpe_zisterne_leistung",
+                                                    "name": "Leistung"
+                                                },
+                                                {
+                                                    "entity": "sensor.pumpe_zisterne_strom",
+                                                    "name": "Strom"
+                                                },
+                                                {
+                                                    "entity": "binary_sensor.pumpe_zisterne_taster",
+                                                    "name": "Taster"
+                                                }
+                                            ],
+                                            "show_header_toggle": false,
+                                            "type": "entities"
+                                        },
+                                        {
+                                            "entities": [
+                                                {
+                                                    "entity": "sensor.pumpe_zisterne_leistung",
+                                                    "name": "Leistung"
+                                                }
+                                            ],
+                                            "hours_to_show": 4,
+                                            "refresh_interval": 30,
+                                            "type": "history-graph"
+                                        }
+                                    ],
+                                    "type": "vertical-stack"
+                                }
+                            ],
+                            "type": "horizontal-stack"
+                        },
+                        {
+                            "cards": [
+                                {
+                                    "cards": [
+                                        {
+                                            "entity": "switch.pumpe_brunnen_relay",
+                                            "hold_action": {
+                                                "action": "more-info"
+                                            },
+                                            "icon": "mdi:water-pump",
+                                            "icon_height": "50px",
+                                            "name": "Brunnen",
+                                            "show_icon": true,
+                                            "show_name": true,
+                                            "tap_action": {
+                                                "action": "toggle"
+                                            },
+                                            "type": "entity-button"
+                                        },
+                                        {
+                                            "card": {
+                                                "entities": [
+                                                    {
+                                                        "entity": "automation.pumpen_timer_brunnen",
+                                                        "name": "Timer Aktiv"
+                                                    },
+                                                    {
+                                                        "entity": "input_number.timer_pumpe_brunnen",
+                                                        "name": "Timer"
+                                                    },
+                                                    {
+                                                        "entity": "sensor.pumpe_brunnen_leistung",
+                                                        "name": "Leistung"
+                                                    },
+                                                    {
+                                                        "entity": "sensor.pumpe_brunnen_strom",
+                                                        "name": "Strom"
+                                                    },
+                                                    {
+                                                        "entity": "binary_sensor.pumpe_brunnen_taster",
+                                                        "name": "Taster"
+                                                    }
+                                                ],
+                                                "show_header_toggle": false,
+                                                "type": "entities"
+                                            },
+                                            "conditions": [
+                                                {
+                                                    "entity": "binary_sensor.show_timer_brunnen",
+                                                    "state": "off"
+                                                }
+                                            ],
+                                            "type": "conditional"
+                                        },
+                                        {
+                                            "card": {
+                                                "entities": [
+                                                    {
+                                                        "entity": "sensor.timer_brunnen",
+                                                        "name": "Timer"
+                                                    },
+                                                    {
+                                                        "entity": "sensor.pumpe_brunnen_leistung",
+                                                        "name": "Leistung"
+                                                    },
+                                                    {
+                                                        "entity": "sensor.pumpe_brunnen_strom",
+                                                        "name": "Strom"
+                                                    },
+                                                    {
+                                                        "entity": "binary_sensor.pumpe_brunnen_taster",
+                                                        "name": "Taster"
+                                                    }
+                                                ],
+                                                "show_header_toggle": false,
+                                                "type": "entities"
+                                            },
+                                            "conditions": [
+                                                {
+                                                    "entity": "binary_sensor.show_timer_brunnen",
+                                                    "state": "on"
+                                                }
+                                            ],
+                                            "type": "conditional"
+                                        },
+                                        {
+                                            "entities": [
+                                                {
+                                                    "entity": "sensor.pumpe_brunnen_leistung",
+                                                    "name": "Leistung"
+                                                }
+                                            ],
+                                            "hours_to_show": 4,
+                                            "refresh_interval": 30,
+                                            "type": "history-graph"
+                                        }
+                                    ],
+                                    "type": "vertical-stack"
+                                }
+                            ],
+                            "type": "horizontal-stack"
+                        },
+                        {
+                            "entities": [
+                                {
+                                    "entity": "cover.cover_2"
+                                },
+                                {
+                                    "entity": "cover.ventil_1"
+                                }
+                            ],
+                            "type": "entities"
+                        }
+                    ],
+                    "icon": "mdi:tree",
+                    "title": "Garten_alt"
+                }
+            ]
+        }
+    },
+    "key": "lovelace",
+    "version": 1
+}

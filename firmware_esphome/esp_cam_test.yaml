@@ -1,0 +1,50 @@
+esphome:
+  name: esp_cam_test2
+  platform: ESP32
+  board: esp32dev
+
+wifi:
+  ssid: "Catwoman"
+  password: "qct25ssvfj97"
+  # manual_ip:
+  # Set this to the IP of the ESP
+  #static_ip: 192.168.8.108
+  #gateway: 192.168.8.1
+  # The subnet of the network. 255.255.255.0 works for most home networks.
+  #subnet: 255.255.255.0
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: "xrdzrtfsx&Rdq07"
+
+ota:
+  password: "xrdzrtfsx&Rdq07"
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+web_server:
+  port: 80
+
+# Example configuration entry
+esp32_camera:
+  external_clock:
+    pin: GPIO0
+    frequency: 20MHz
+  i2c_pins:
+    sda: GPIO26
+    scl: GPIO27
+  data_pins: [GPIO5, GPIO18, GPIO19, GPIO21, GPIO36, GPIO39, GPIO34, GPIO35]
+  vsync_pin: GPIO25
+  href_pin: GPIO23
+  pixel_clock_pin: GPIO22
+  power_down_pin: GPIO32
+  resolution: 1024x768
+  max_framerate: 2 fps
+
+  # Image settings
+  name: cam_test1

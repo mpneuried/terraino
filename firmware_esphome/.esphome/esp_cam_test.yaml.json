@@ -1,0 +1,25 @@
+{
+  "arduino_version": "espressif32@1.6.0", 
+  "address": "esp_cam_test1.local", 
+  "storage_version": 1, 
+  "esphome_version": "1.13.6", 
+  "build_path": "esp_cam_test1", 
+  "name": "esp_cam_test1", 
+  "loaded_integrations": [
+    "api", 
+    "esp32_camera", 
+    "esphome", 
+    "homeassistant", 
+    "json", 
+    "logger", 
+    "network", 
+    "ota", 
+    "time", 
+    "web_server", 
+    "wifi"
+  ], 
+  "firmware_bin_path": "esp_cam_test1/.pioenvs/esp_cam_test1/firmware.bin", 
+  "board": "esp32dev", 
+  "esp_platform": "ESP32", 
+  "src_version": 1
+}

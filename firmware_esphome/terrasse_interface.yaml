@@ -1,11 +1,11 @@
 esphomeyaml:
-  name: 'terrasse_interface'
+  name: "terrasse_interface"
   platform: ESP32
   board: ttgo-lora32-v1
 
 wifi:
-  ssid: 'Catwoman'
-  password: 'qct25ssvfj97'
+  ssid: "Catwoman"
+  password: "qct25ssvfj97"
 
 # Enable logging
 logger:
@@ -17,10 +17,10 @@ uart:
 
 # Enable Home Assistant API
 api:
-  password: 'xrdzrtfsx&Rdq07'
+  password: "xrdzrtfsx&Rdq07"
 
 ota:
-  password: 'xrdzrtfsx&Rdq07'
+  password: "xrdzrtfsx&Rdq07"
 
 web_server:
   port: 80
@@ -62,7 +62,7 @@ binary_sensor:
     id: showtimer
     name: "Terrassen Timer Show"
     internal: true
-    entity_id: binary_sensor.show_timer_wasser_terrasse
+    entity_id: binary_sensor.show_timer_zone3
   - platform: homeassistant
     id: showtimer_brunnen
     name: "Brunnen Timer Show"
@@ -84,22 +84,17 @@ sensor:
     id: timer
     name: "Terrassen Timer"
     internal: true
-    entity_id: sensor.timer_wasser_terrasse
+    entity_id: sensor.timer_zone3
   - platform: homeassistant
     id: duration
     name: "Terrassen Timer Duration"
     internal: true
-    entity_id: input_number.timer_terrasse
-  - platform: homeassistant
-    id: automation_state
-    name: "Automation state"
-    internal: true
-    entity_id: input_number.timer_terrasse
+    entity_id: sensor.duration_zone3
   - platform: homeassistant
     id: zisterne
     name: "Zisterne Füllstand"
     internal: true
-    entity_id: sensor.fuellstand
+    entity_id: sensor.fuellstand_2
 
 font:
   - file: "roboto.ttf"
@@ -150,4 +145,3 @@ display:
       } else {
         it.printf(it.get_width() / 2, ( it.get_height()/2) - 7, id(fontMid), TextAlign::TOP_CENTER, "OFFLINE");
       }
-    

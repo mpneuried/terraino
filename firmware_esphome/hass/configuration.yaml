@@ -1,0 +1,600 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: 51.9556535
+  longitude: 12.0767735
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 0
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Berlin
+  # Customization file
+  customize: !include customize.yaml
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+system_health:
+
+updater:
+
+logger:
+  default: critical
+  logs:
+    homeassistant.components.http: warning
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+# http:
+#   base_url: example.duckdns.org:8123
+
+weather:
+  - platform: darksky
+    api_key: !secret dark_sky_key
+
+
+#calendar:
+#  - platform: caldav
+#    url: https://abikw.wastebox.gemos-management.de/Gemos/WasteBox/Frontend/TourSchedule/Raw/Name/2019/List/73626/525,526,527,528,529/Print/ics/Default/Abfuhrtermine.ics
+
+vallox:
+  host: 192.168.1.21
+
+media_player:
+  - platform: yamaha
+    host: 192.168.1.53
+    name: "Receiver"
+    source_ignore:
+      - "Spotify"
+      - "USB"
+      - "AUDIO"
+      - "V-AUX"
+      - "iPod (USB)"
+      - "TUNER"
+      - "SERVER"
+      - "HDMI5"
+      - "AV2"
+      - "AV3"
+      - "AV4"
+      - "AV5"
+      - "AV6"
+    source_names:
+      HDMI4: Sat
+      HDMI1: "Fire TV"
+      HDMI2: Switch
+      HDMI3: XBox
+      AV1: "Bluetooth"
+#  - platform: firetv
+#    name: Fire TV
+#    host: 192.168.1.18
+
+ios:
+  push:
+    categories:
+      - name: Alarm
+        identifier: 'brunnen_alarm'
+        actions:
+          - identifier: 'BRUNNEN_ALARM'
+            title: 'Pumpe abschalten'
+            activationMode: 'background'
+            authenticationRequired: true
+            destructive: true
+            behavior: 'default'
+
+homekit:
+
+device_tracker:
+  - platform: unifi
+    host: 192.168.1.29
+    username: !secret unifi_user
+    password: !secret unifi_pw
+    verify_ssl: false
+    ssid_filter:
+      - 'Bruce_Wayne'
+      
+#influxdb:
+#  host: 192.168.1.29
+#  port: 8086
+#  database: home_assistant
+#  username: !secret influx_user
+#  password: !secret influx_pw
+#  max_retries: 3
+#  default_measurement: state
+
+neato:
+  username: !secret neato_user
+  password: !secret neato_pw
+  
+fibaro:
+  gateways:
+    - url: http://192.168.1.7/api/
+      username: !secret fibaro_user
+      password: !secret fibaro_pw
+
+emulated_hue:
+  host_ip: 192.168.1.29
+  expose_by_default: true
+  exposed_domains:
+    - light
+    - cover
+    - scene
+    - media_player
+    - switch
+  entities: !include emulated_hue_entities.yaml
+
+
+light:
+  - platform: template
+    lights:
+      fernseher:
+        friendly_name: "Fernseher"
+        level_template: >-
+            {% if is_state('media_player.receiver', 'on') %}
+                {{ (states.media_player.receiver.attributes.volume_level|float * 255)|int }}
+            {% else %}
+                0
+            {% endif %}
+        value_template: >-
+          {% if is_state('media_player.receiver', 'on') %}
+            on
+          {% else %}
+            off
+          {% endif %}
+        turn_on:
+          service: script.tv_turn_on
+          data:
+            entity_id: script.tv_turn_on
+        turn_off:
+          service: media_player.turn_off
+          data:
+            entity_id: media_player.receiver
+        set_level:
+          service: media_player.volume_set
+          data_template:
+            entity_id: media_player.receiver
+            volume_level: "{{ (brightness / 255 * 100)|int / 100 }}"
+# Sensors
+sensor:
+  # Weather prediction
+  - platform: darksky
+    api_key: !secret dark_sky_key
+    forecast: 3
+    language: de
+    monitored_conditions:
+      - summary
+      - icon
+      - temperature
+      - precip_type
+      - precip_intensity
+      - precip_probability
+      - temperature
+      - wind_speed
+      - wind_gust
+      - wind_bearing
+      - cloud_cover
+      - humidity
+      - pressure
+      - hourly_summary
+      - temperature_high
+      - temperature_low
+      - precip_intensity_max
+      - uv_index
+      - nearest_storm_distance
+      - nearest_storm_bearing
+    scan_interval: "00:30:00"
+  - platform: wunderground
+    api_key: !secret wunderground_key
+    monitored_conditions:
+      - precip_today_metric
+      - precip_1d
+      - precip_1d_mm
+      - solarradiation
+      - temp_c
+      - temp_high_record_c
+      - temp_low_record_c
+      - temp_high_1d_c
+      - temp_low_1d_c
+      - wind_degrees
+      - wind_dir
+      - wind_gust_kph
+      - wind_kph
+      
+  - platform: systemmonitor
+    resources:
+      - type: processor_use
+      - type: load_1m
+      - type: memory_use_percent
+      - type: disk_free
+        arg: /
+      - type: last_boot
+      - type: throughput_network_in
+        arg: eth0
+      - type: throughput_network_out
+        arg: eth0
+  - platform: mqtt
+    name: "Lüftung Ventilator"
+    state_topic: "home/vallox"
+    unit_of_measurement: '%'
+    icon: "mdi:fan"
+    value_template: "{{ value_json.A_CYC_FAN_SPEED }}"
+  - platform: mqtt
+    name: "Außentemperatur Lüftung"
+    state_topic: "home/vallox"
+    icon: "mdi:thermometer"
+    unit_of_measurement: '°C'
+    value_template: "{{ value_json.A_CYC_TEMP_OUTDOOR_AIR }}"
+  - platform: mqtt
+    name: "Lüftung Temperatur Verlust"
+    state_topic: "home/vallox"
+    icon: "mdi:thermometer"
+    unit_of_measurement: '°C'
+    value_template: "{{ value_json.A_CYC_TEMP_EXHAUST_AIR - value_json.A_CYC_TEMP_OUTDOOR_AIR }}"
+  - platform: mqtt
+    name: "Temperatur Zuluft"
+    state_topic: "home/vallox"
+    icon: "mdi:thermometer"
+    unit_of_measurement: '°C'
+    value_template: "{{ value_json.A_CYC_TEMP_SUPPLY_AIR }}"
+  - platform: mqtt
+    name: "Temperatur Abluft"
+    state_topic: "home/vallox"
+    icon: "mdi:thermometer"
+    unit_of_measurement: '°C'
+    value_template: "{{ value_json.A_CYC_TEMP_EXTRACT_AIR }}"
+  - platform: mqtt
+    name: "Feuchtigkeit Lüftung"
+    state_topic: "home/vallox"
+    icon: "mdi:water-percent"
+    unit_of_measurement: '°C'
+    value_template: "{{ value_json.A_CYC_RH_VALUE }}"
+  - platform: template
+    sensors:
+      timer_brunnen:
+        value_template: '{{ ((( as_timestamp( states.automation.pumpen_timer_brunnen.attributes.last_triggered ) + ( states.input_number.timer_pumpe_brunnen.state | int * 60 ) ) - as_timestamp(now()) ) / 60 ) | round }}'
+        entity_id: sensor.time
+        friendly_name: 'Timer Brunnen'
+        unit_of_measurement: "Minutes"
+  - platform: template
+    sensors:
+      timer_regner_garager:
+        value_template: '{{ ((( as_timestamp( states.automation.regner_garage.attributes.last_triggered ) + ( states.input_number.timer_rasen_garage.state | int * 60 ) ) - as_timestamp(now()) ) / 60 ) | round }}'
+        entity_id: sensor.time
+        friendly_name: 'Timer Garagen-Regner'
+        unit_of_measurement: "Minutes"
+  - platform: template
+    sensors:
+      timer_regner_hecken:
+        value_template: '{{ ((( as_timestamp( states.automation.regner_hecken.attributes.last_triggered ) + ( states.input_number.timer_hecken_regner.state | int * 60 ) ) - as_timestamp(now()) ) / 60 ) | round }}'
+        entity_id: sensor.time
+        friendly_name: 'Timer Hecken-Regner'
+        unit_of_measurement: "Minutes"
+  - platform: template
+    sensors:
+      timer_sprueh_hecken:
+        value_template: '{{ ((( as_timestamp( states.automation.hecken_spruher.attributes.last_triggered ) + ( states.input_number.timer_hecken_sprueh.state | int * 60 ) ) - as_timestamp(now()) ) / 60 ) | round }}'
+        entity_id: sensor.time
+        friendly_name: 'Timer Hecken-Sprüher'
+        unit_of_measurement: "Minutes"
+  - platform: template
+    sensors:
+      timer_wasser_terrasse:
+        value_template: '{{ ((( as_timestamp( states.automation.wasser_terrasse.attributes.last_triggered ) + ( states.input_number.timer_terrasse.state | int * 60 ) ) - as_timestamp(now()) ) / 60 ) | round }}'
+        entity_id: sensor.time
+        friendly_name: 'Timer Terrassen-Wasser'
+        unit_of_measurement: "Minutes"
+  - platform: command_line
+    name: CPU Temperature
+    command: "cat /sys/class/thermal/thermal_zone0/temp"
+    # If errors occur, remove degree symbol below
+    unit_of_measurement: "°C"
+    value_template: '{{ value | multiply(0.001) | round(1) }}'
+
+  - platform: template
+    sensors:
+      factor_sum_watering:
+        value_template: "{{
+          states.input_number.duration_factor_zone1.state | int +
+          states.input_number.duration_factor_zone2.state | int
+        }}"
+        friendly_name: "Faktor Summe"
+        unit_of_measurement: '%'
+  - platform: template
+    sensors:
+      duration_zone1:
+        value_template: "{{
+          ( states.input_number.duration_factor_zone1.state | int / 100 ) *
+          ( states.input_number.duration_watering.state | int * 60 )
+        }}"
+        friendly_name: "Dauer Zone 1"
+        unit_of_measurement: 'Sec'
+  - platform: template
+    sensors:
+      duration_zone1_min:
+        value_template: "{{
+          ( states.sensor.duration_zone1.state | int / 60 ) | round
+        }}"
+        friendly_name: "Dauer Zone 1"
+        unit_of_measurement: 'Min.'
+  - platform: template
+    sensors:
+      timer_zone1:
+        value_template: '{{ ((( as_timestamp( states.automation.garten_zone1.attributes.last_triggered ) + ( states.sensor.duration_zone1.state | int ) ) - as_timestamp(now()) ) ) | round }}'
+        entity_id: sensor.time
+        friendly_name: 'Timer Zone 1'
+        unit_of_measurement: "Sec."
+
+  - platform: template
+    sensors:
+      duration_zone2:
+        value_template: "{{
+          ( states.input_number.duration_factor_zone2.state | int / 100 )*
+          ( states.input_number.duration_watering.state | int * 60 )
+        }}"
+        friendly_name: "Dauer Zone 2"
+        unit_of_measurement: 'Sec'
+  - platform: template
+    sensors:
+      duration_zone2_min:
+        value_template: "{{
+          ( states.sensor.duration_zone2.state | int / 60 ) | round
+        }}"
+        friendly_name: "Dauer Zone 2"
+        unit_of_measurement: 'Min.'
+  - platform: template
+    sensors:
+      timer_zone2:
+        value_template: '{{ ((( as_timestamp( states.automation.garten_zone2.attributes.last_triggered ) + ( states.sensor.duration_zone2.state | int ) ) - as_timestamp(now()) ) ) | round }}'
+        entity_id: sensor.time
+        friendly_name: 'Timer Zone 2'
+        unit_of_measurement: "Sec."
+    
+binary_sensor:
+  - platform: template
+    sensors:
+      show_timer_brunnen:
+        friendly_name: Zeige Brunnen Timer
+        entity_id: sensor.time
+        value_template: "{{ states.sensor.timer_brunnen.state|int >= 0 and is_state(\"switch.pumpe_brunnen_relay\", \"on\") }}"
+  - platform: template
+    sensors:
+      show_timer_regner_garager:
+        friendly_name: Zeige Garegen-Regner Timer
+        entity_id: sensor.time
+        value_template: "{{ states.sensor.timer_regner_garager.state|int >= 0 and is_state(\"switch.ventil_1\", \"on\") }}"
+  - platform: template
+    sensors:
+      show_timer_regner_hecken:
+        friendly_name: Zeige Hecken-Regner Timer
+        entity_id: sensor.time
+        value_template: "{{ states.sensor.timer_regner_hecken.state|int >= 0 and is_state(\"switch.ventil_2\", \"on\") }}"
+  - platform: template
+    sensors:
+      show_timer_sprueh_hecken:
+        friendly_name: Zeige Hecken-Sprüher Timer
+        entity_id: sensor.time
+        value_template: "{{ states.sensor.timer_sprueh_hecken.state|int >= 0 and is_state(\"switch.ventil_3\", \"on\") }}"
+  - platform: template
+    sensors:
+      show_timer_wasser_terrasse:
+        friendly_name: Zeige Terrassen-Wasser Timer
+        entity_id: sensor.time
+        value_template: "{{ states.sensor.timer_wasser_terrasse.state|int >= 0 and is_state(\"switch.ventil_4\", \"on\") }}"
+
+  - platform: template
+    sensors:
+      show_timer_wasser_terrasse:
+        friendly_name: Zeige Terrassen-Wasser Timer
+        entity_id: sensor.time
+        value_template: "{{ states.sensor.timer_wasser_terrasse.state|int >= 0 and is_state(\"switch.ventil_4\", \"on\") }}"
+
+  - platform: template
+    sensors:
+      show_timer_zone1:
+        friendly_name: Zeige Timer Zone 1
+        entity_id: sensor.time
+        value_template: "{{ states.sensor.timer_zone1.state|int >= 0 and is_state(\"switch.ventil_1\", \"on\") }}"
+  - platform: template
+    sensors:
+      show_timer_zone2:
+        friendly_name: Zeige Timer Zone 2
+        entity_id: sensor.time
+        value_template: "{{ states.sensor.timer_zone2.state|int >= 0 and is_state(\"switch.ventil_4\", \"on\") }}"
+
+input_number:
+  duration_brunnen:
+    name: Dauer Brunnen
+    min: 1
+    max: 300
+    step: 1
+    icon: mdi:timer
+    unit_of_measurement: Min.
+  duration_watering:
+    name: Dauer Beregnung
+    min: 5
+    max: 300
+    step: 5
+    icon: mdi:timer
+    unit_of_measurement: Min.
+  state_watering_automation:
+    name: Status Automatik
+    min: 0
+    max: 2.5
+    step: 0.5
+    icon: mdi:shoe-print
+    unit_of_measurement: Step
+  duration_factor_zone1:
+    name: Faktor Regner Garage (Zone 1)
+    min: 0
+    max: 100
+    step: 5
+    icon: mdi:circle-slice-3
+    unit_of_measurement: "%"
+  duration_factor_zone2:
+    name: Faktor Regner Hecken (Zone 2)
+    min: 0
+    max: 100
+    step: 5
+    icon: mdi:circle-slice-3
+    unit_of_measurement: "%"
+
+  timer_pumpe_brunnen:
+    name: Timer Brunnen
+    min: 5
+    max: 300
+    step: 5
+    icon: mdi:timer
+    unit_of_measurement: Min.
+  timer_hecken_sprueh:
+    name: Timer Hecke Sprüher
+    min: 1
+    max: 60
+    step: 1
+    icon: mdi:timer
+    unit_of_measurement: Min.
+  timer_hecken_regner:
+    name: Timer Hecke Regner
+    min: 1
+    max: 60
+    step: 1
+    icon: mdi:timer
+    unit_of_measurement: Min.
+  timer_rasen_garage:
+    name: Timer Rasen Garage
+    min: 1
+    max: 60
+    step: 1
+    icon: mdi:timer
+    unit_of_measurement: Min.
+  timer_rasen_buero:
+    name: Timer Rasen Büro
+    min: 1
+    max: 60
+    step: 1
+    icon: mdi:timer
+    unit_of_measurement: Min.
+  timer_terrasse:
+    name: Timer Terrasse
+    min: 1
+    max: 60
+    step: 1
+    icon: mdi:timer
+    unit_of_measurement: Min.
+#  status_automation_regner:
+#    name: Status Automation
+#    initial: 0
+#    min: 0
+#    max: 4
+#    step: 1
+#    icon: mdi:auto-fix
+
+
+input_boolean:
+  bewaesserung_automation:
+    name: Starte Bewässerung
+    initial: off
+    icon: mdi:water
+
+#input_select:
+#  ventilation_profile:
+#    name: Ventilation profile select
+#    options:
+#      - "Home"
+#      - "Away"
+#      - "Boost"
+#    icon: mdi:fan
+
+switch:
+  - platform: neato
+  - platform: template
+    switches:
+      bewaesserung_automation:
+        value_template: "{{ is_state('input_boolean.bewaesserung_automation', 'on') }}"
+        turn_on:
+          service: input_boolean.turn_on
+          data:
+            entity_id: input_boolean.bewaesserung_automation
+        turn_off:
+          service: input_boolean.turn_off
+          data:
+            entity_id: input_boolean.bewaesserung_automation
+  - platform: template
+    switches:
+      bewasserung_zeitschaltuhr:
+        value_template: "{{ is_state('automation.bewasserung_zeitschaltuhr', 'on') }}"
+        turn_on:
+          service: automation.turn_on
+          data:
+            entity_id: automation.bewasserung_zeitschaltuhr
+        turn_off:
+          service: automation.turn_off
+          data:
+            entity_id: automation.bewasserung_zeitschaltuhr
+
+  - platform: template
+    switches:
+      garten_zone1:
+        friendly_name: "Garten Zone 1 (Regner Garage)"
+        value_template: "{{ 0.5 < ( states.input_number.state_watering_automation.state | float ) < 2  }}"
+        turn_on:
+        - service: numeric_state.set_value
+          data:
+            entity_id: input_number.state_watering_automation
+            value: 1.5
+        - service: switch.turn_on
+          data:
+            entity_id: switch.pumpe_zisterne_relay
+        - service: switch.turn_on
+          data:
+            entity_id: switch.ventil_1
+        turn_off:
+        - service: switch.turn_off
+          data:
+            entity_id: switch.ventil_1
+        - service: numeric_state.set_value
+          data:
+            entity_id: input_number.state_watering_automation
+            value: >
+              {% is_state('input_boolean.bewaesserung_automation', 'on') %}
+                2
+              {% else %}
+                0
+              {% endif %}
+  - platform: template
+    switches:
+      garten_zone2:
+        friendly_name: "Garten Zone 2 ( Regner Mauer )"
+        value_template: "{{ 1.5 < ( states.input_number.state_watering_automation.state | float ) < 3  }}"
+        turn_on:
+        - service: numeric_state.set_value
+          data:
+            entity_id: input_number.state_watering_automation
+            value: 2.5
+        - service: switch.turn_on
+          data:
+            entity_id: switch.pumpe_zisterne_relay
+        - service: switch.turn_on
+          data:
+            entity_id: switch.ventil_2
+        turn_off:
+        - service: switch.turn_off
+          data:
+            entity_id: switch.ventil_2
+        - service: numeric_state.set_value
+          data:
+            entity_id: input_number.state_watering_automation
+            value: >
+              {% is_state('input_boolean.bewaesserung_automation', 'on') %}
+                3
+              {% else %}
+                0
+              {% endif %}
+
+scene:
+  - name: "Guten Morgen"
+    entities:
+      scene.gesamtes_haus_good_morning_2: turn_on
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml

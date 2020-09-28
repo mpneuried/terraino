@@ -1,0 +1,458 @@
+media_player.yamaha_receiver:
+  friendly_name: Receiver
+  emulated_hue: true
+  emulated_hue_name: Receiver
+  homebridge_name: Receiver
+  icon: mdi:speaker
+cover.buro_bu_l_48:
+  device_class: shade
+  homebridge_hidden: true
+device_tracker.alexa_bad:
+  homebridge_hidden: true
+  hidden: true
+device_tracker.alexa_buro:
+  friendly_name: Alexa Büro
+  homebridge_hidden: true
+  hidden: true
+device_tracker.alexa_kuche:
+  hidden: true
+  homebridge_hidden: true
+device_tracker.iphone_julia:
+  friendly_name: Julia
+device_tracker.iphone_mathias:
+  friendly_name: Mathias
+sensor.dark_sky_cloud_coverage_3d:
+  hidden: true
+  homebridge_hidden: true
+scene.wohnzimmer_sonnenschutz:
+  icon: mdi:sunglasses
+  homebridge_hidden: false
+scene.gesamtes_haus_good_morning_2:
+  icon: mdi:weather-sunset-up
+  homebridge_hidden: false
+scene.gesamtes_haus_good_night_1_2_2:
+  friendly_name: Gute Nacht
+  icon: mdi:weather-night
+  homebridge_hidden: false
+device_tracker.brw28565a3a2a2e:
+  friendly_name: Drucker Brother
+  homebridge_hidden: true
+sensor.timer_brunnen:
+  icon: mdi:timer
+  homebridge_hidden: false
+cover.cover_2:
+  icon_template: '{% if is_state(''cover.cover_2'', ''closed'') %}mdi:water-off{%
+    else %}mdi:water{% endif %}'
+  homebridge_hidden: false
+cover.kinderzimmer_1_lea_k1_l_51:
+  device_class: shade
+  homebridge_hidden: false
+cover.buro_bu_r_45:
+  device_class: shade
+  homebridge_hidden: false
+device_tracker.64_b5_c6_6d_29_04:
+  homebridge_hidden: true
+vacuum.alfred:
+  homebridge_hidden: true
+camera.alfred_cleaning_map:
+  homebridge_hidden: true
+switch.alfred_schedule:
+  homebridge_hidden: false
+group.all_automations:
+  homebridge_hidden: true
+group.all_covers:
+  homebridge_hidden: true
+group.all_devices:
+  homebridge_hidden: true
+group.all_lights:
+  homebridge_hidden: true
+group.all_scripts:
+  homebridge_hidden: true
+group.all_switches:
+  homebridge_hidden: true
+group.all_vacuum_cleaners:
+  homebridge_hidden: true
+device_tracker.amazon_cef097495:
+  homebridge_hidden: true
+sensor.aussentemperatur_luftung:
+  homebridge_hidden: true
+cover.bad_ba_l_54:
+  homebridge_hidden: false
+cover.bad_ba_r_63:
+  homebridge_hidden: false
+switch.bewaesserung_automation:
+  homebridge_hidden: false
+automation.bewasserung_automatik_1:
+  homebridge_hidden: true
+automation.bewasserung_automatik_2:
+  homebridge_hidden: true
+automation.bewasserung_automatik_3:
+  homebridge_hidden: true
+automation.bewasserung_automatik_4:
+  homebridge_hidden: true
+automation.bewasserung_automatik_5:
+  homebridge_hidden: true
+automation.bewasserung_automatik_end:
+  homebridge_hidden: true
+automation.bewasserung_zeitschaltuhr:
+  homebridge_hidden: false
+automation.brunnen_abschalten_wenn_zisterne_voll:
+  homebridge_hidden: true
+automation.brunnen_alarm:
+  homebridge_hidden: true
+automation.buro_keine_sonne:
+  homebridge_hidden: false
+automation.buro_sonne_von_osten:
+  homebridge_hidden: false
+automation.buro_sonne_von_suden:
+  homebridge_hidden: false
+sensor.cpu_temperature:
+  homebridge_hidden: false
+weather.dark_sky:
+  homebridge_hidden: true
+sensor.dark_sky_cloud_coverage:
+  homebridge_hidden: true
+sensor.dark_sky_daily_max_precip_intensity_3d:
+  homebridge_hidden: true
+sensor.dark_sky_daytime_high_temperature_3d:
+  homebridge_hidden: true
+sensor.dark_sky_hourly_summary:
+  homebridge_hidden: true
+sensor.dark_sky_humidity:
+  homebridge_hidden: true
+sensor.dark_sky_humidity_3d:
+  homebridge_hidden: true
+sensor.dark_sky_icon:
+  homebridge_hidden: true
+sensor.dark_sky_icon_3d:
+  homebridge_hidden: true
+sensor.dark_sky_nearest_storm_bearing:
+  homebridge_hidden: true
+sensor.dark_sky_nearest_storm_distance:
+  homebridge_hidden: true
+sensor.dark_sky_overnight_low_temperature_3d:
+  homebridge_hidden: true
+sensor.dark_sky_precip:
+  homebridge_hidden: true
+sensor.dark_sky_precip_3d:
+  homebridge_hidden: true
+sensor.dark_sky_precip_intensity:
+  homebridge_hidden: true
+sensor.dark_sky_precip_intensity_3d:
+  homebridge_hidden: true
+sensor.dark_sky_precip_probability:
+  homebridge_hidden: true
+sensor.dark_sky_precip_probability_3d:
+  homebridge_hidden: true
+sensor.dark_sky_pressure:
+  homebridge_hidden: true
+sensor.dark_sky_pressure_3d:
+  homebridge_hidden: true
+sensor.dark_sky_summary:
+  homebridge_hidden: true
+sensor.dark_sky_summary_3d:
+  homebridge_hidden: true
+sensor.dark_sky_temperature:
+  homebridge_hidden: true
+sensor.dark_sky_temperature_2:
+  homebridge_hidden: true
+sensor.dark_sky_uv_index:
+  homebridge_hidden: true
+sensor.dark_sky_uv_index_3d:
+  homebridge_hidden: true
+sensor.dark_sky_wind_bearing:
+  homebridge_hidden: true
+sensor.dark_sky_wind_bearing_3d:
+  homebridge_hidden: true
+sensor.dark_sky_wind_gust:
+  homebridge_hidden: true
+sensor.dark_sky_wind_gust_3d:
+  homebridge_hidden: true
+sensor.dark_sky_wind_speed:
+  homebridge_hidden: true
+sensor.dark_sky_wind_speed_3d:
+  homebridge_hidden: true
+sensor.disk_free:
+  homebridge_hidden: true
+cover.esszimmer_ez_l_66:
+  homebridge_hidden: false
+cover.esszimmer_ez_r_15:
+  homebridge_hidden: false
+light.fernseher:
+  homebridge_hidden: false
+sensor.feuchtigkeit_luftung:
+  homebridge_hidden: false
+binary_sensor.buro_rm_s_d_83:
+  homebridge_hidden: true
+binary_sensor.wohnzimmer_rm_s_c_79:
+  homebridge_hidden: true
+media_player.fire_tv:
+  homebridge_hidden: false
+sensor.fuellstand:
+  homebridge_hidden: false
+switch.ventil_1:
+  homebridge_hidden: false
+scene.gesamtes_haus_bettchen_zeit:
+  homebridge_hidden: false
+scene.gesamtes_haus_good_morning_we_2:
+  homebridge_hidden: false
+scene.gesamtes_haus_good_night_urlaub_2:
+  homebridge_hidden: false
+scene.gesamtes_haus_good_night_2_2_2:
+  homebridge_hidden: false
+scene.guten_morgen:
+  homebridge_hidden: false
+cover.gastezimmer_gz_24:
+  homebridge_hidden: false
+switch.heating:
+  homebridge_hidden: true
+automation.hecken_spruher:
+  homebridge_hidden: false
+zone.home:
+  homebridge_hidden: true
+device_tracker.honor_8:
+  homebridge_hidden: true
+binary_sensor.hwr_rm_s_a_70:
+  homebridge_hidden: false
+binary_sensor.hwr_rm_s_a_71:
+  homebridge_hidden: false
+sensor.hwr_rm_t_a_72:
+  homebridge_hidden: false
+cover.hwr_hwr_18:
+  homebridge_hidden: false
+device_tracker.ipad:
+  homebridge_hidden: true
+sensor.ipad_von_mathias_battery_level:
+  homebridge_hidden: true
+sensor.ipad_von_mathias_battery_state:
+  homebridge_hidden: true
+sensor.iphone_battery_level:
+  homebridge_hidden: true
+sensor.iphone_battery_state:
+  homebridge_hidden: true
+sensor.julias_iphone_battery_level:
+  homebridge_hidden: true
+sensor.julias_iphone_battery_state:
+  homebridge_hidden: true
+binary_sensor.kinderzimmer_1_lea_rm_s_e_86:
+  homebridge_hidden: true
+binary_sensor.kinderzimmer_1_lea_rm_s_e_87:
+  homebridge_hidden: true
+binary_sensor.kinderzimmer_2_pia_rm_s_b_74:
+  homebridge_hidden: true
+binary_sensor.kinderzimmer_2_pia_rm_s_b_75:
+  homebridge_hidden: true
+cover.kinderzimmer_1_lea_k1_r_27:
+  homebridge_hidden: false
+cover.kinderzimmer_2_pia_k2_l_60:
+  homebridge_hidden: false
+cover.kinderzimmer_2_pia_k2_r_30:
+  homebridge_hidden: false
+group.buro:
+  homebridge_hidden: true
+cover.kuche_ku_l_57:
+  homebridge_hidden: false
+cover.kuche_ku_r_33:
+  homebridge_hidden: false
+sensor.last_boot:
+  homebridge_hidden: true
+switch.light:
+  homebridge_hidden: true
+sensor.living_room_humidity:
+  homebridge_hidden: true
+sensor.living_room_temperature:
+  homebridge_hidden: true
+sensor.load_1m:
+  homebridge_hidden: true
+sensor.luftung_temperatur_verlust:
+  homebridge_hidden: false
+sensor.luftung_ventilator:
+  homebridge_hidden: false
+person.m_peter:
+  homebridge_hidden: true
+device_tracker.macbook_pro_wifi:
+  homebridge_hidden: true
+cover.ventil_2:
+  homebridge_hidden: false
+cover.cover:
+  homebridge_hidden: false
+switch.ventil_2:
+  homebridge_hidden: false
+switch.ventil_3:
+  homebridge_hidden: false
+sensor.memory_use_percent:
+  homebridge_hidden: true
+sensor.network_throughput_in_eth0:
+  homebridge_hidden: true
+sensor.network_throughput_out_eth0:
+  homebridge_hidden: true
+sensor.processor_use:
+  homebridge_hidden: true
+sensor.pumpe_brunnen_leistung:
+  homebridge_hidden: false
+switch.pumpe_brunnen_relay:
+  homebridge_hidden: false
+sensor.pumpe_brunnen_spannung:
+  homebridge_hidden: true
+sensor.pumpe_brunnen_strom:
+  homebridge_hidden: true
+binary_sensor.pumpe_brunnen_taster:
+  homebridge_hidden: true
+sensor.pumpe_zisterne_leistung:
+  homebridge_hidden: false
+switch.pumpe_zisterne_relay:
+  homebridge_hidden: false
+sensor.pumpe_zisterne_spannung:
+  homebridge_hidden: true
+sensor.pumpe_zisterne_strom:
+  homebridge_hidden: true
+binary_sensor.pumpe_zisterne_taster:
+  homebridge_hidden: true
+automation.pumpen_timer_brunnen:
+  homebridge_hidden: true
+binary_sensor.buro_rm_s_d_82:
+  homebridge_hidden: true
+binary_sensor.wohnzimmer_rm_s_c_78:
+  homebridge_hidden: true
+media_player.receiver:
+  homebridge_hidden: false
+automation.regner_garage:
+  homebridge_hidden: false
+automation.regner_hecken:
+  homebridge_hidden: false
+cover.schlafzimmer_sz_36:
+  homebridge_hidden: false
+binary_sensor.schlafzimmer_rm_s_f_90:
+  homebridge_hidden: true
+binary_sensor.schlafzimmer_rm_s_f_91:
+  homebridge_hidden: true
+binary_sensor.shelly1_a_button:
+  homebridge_hidden: true
+switch.shelly1_a_relay:
+  homebridge_hidden: false
+binary_sensor.shelly1_b_button:
+  homebridge_hidden: true
+switch.shelly1_b_relay:
+  homebridge_hidden: false
+light.sonoff_4ch_blue_led:
+  homebridge_hidden: true
+binary_sensor.sonoff_4ch_button_1:
+  homebridge_hidden: true
+binary_sensor.sonoff_4ch_button_2:
+  homebridge_hidden: true
+binary_sensor.sonoff_4ch_button_3:
+  homebridge_hidden: true
+binary_sensor.sonoff_4ch_button_4:
+  homebridge_hidden: true
+switch.sonoff_4ch_relay_1:
+  homebridge_hidden: true
+switch.sonoff_4ch_relay_2:
+  homebridge_hidden: true
+switch.sonoff_4ch_relay_3:
+  homebridge_hidden: true
+switch.sonoff_4ch_relay_4:
+  homebridge_hidden: true
+binary_sensor.sonoff_4ch_status:
+  homebridge_hidden: true
+automation.start_auto_beregnung_durch_interface_klick:
+  homebridge_hidden: true
+automation.start_terrassen_wasser_durch_interface_klick:
+  homebridge_hidden: true
+input_boolean.bewaesserung_automation:
+  homebridge_hidden: false
+automation.stop_auto_beregnung_durch_interface_klick:
+  homebridge_hidden: true
+automation.stop_terrassen_wasser_durch_interface_klick:
+  homebridge_hidden: true
+sun.sun:
+  homebridge_hidden: true
+sensor.temperatur_abluft:
+  homebridge_hidden: false
+sensor.buro_rm_t_d_84:
+  homebridge_hidden: true
+sensor.kinderzimmer_1_lea_rm_t_e_88:
+  homebridge_hidden: false
+sensor.kinderzimmer_2_pia_rm_t_b_76:
+  homebridge_hidden: false
+sensor.schlafzimmer_rm_t_f_92:
+  homebridge_hidden: false
+sensor.temperatur_zuluft:
+  homebridge_hidden: false
+switch.ventil_4:
+  homebridge_hidden: false
+input_number.timer_pumpe_brunnen:
+  homebridge_hidden: true
+sensor.timer_regner_garager:
+  homebridge_hidden: true
+input_number.timer_hecken_regner:
+  homebridge_hidden: true
+input_number.timer_hecken_sprueh:
+  homebridge_hidden: true
+sensor.timer_regner_hecken:
+  homebridge_hidden: true
+sensor.timer_sprueh_hecken:
+  homebridge_hidden: true
+input_number.timer_rasen_buero:
+  homebridge_hidden: true
+input_number.timer_rasen_garage:
+  homebridge_hidden: true
+input_number.timer_terrasse:
+  homebridge_hidden: true
+sensor.timer_wasser_terrasse:
+  homebridge_hidden: true
+binary_sensor.toggle_automation:
+  homebridge_hidden: true
+binary_sensor.toggle_wasser_terrasse:
+  homebridge_hidden: true
+cover.toilette_toi_21:
+  homebridge_hidden: false
+cover.treppe_tr_39:
+  homebridge_hidden: false
+script.tv_turn_on:
+  homebridge_hidden: true
+sensor.ultrasonic_sensor:
+  homebridge_hidden: false
+persistent_notification.http_login:
+  homebridge_hidden: true
+switch.unknown_zwave_1:
+  homebridge_hidden: true
+automation.update_timers:
+  homebridge_hidden: true
+sensor.uptime_sensor:
+  homebridge_hidden: true
+cover.ventil:
+  homebridge_hidden: false
+binary_sensor.ventil_button_1:
+  homebridge_hidden: true
+binary_sensor.ventil_button_2:
+  homebridge_hidden: true
+binary_sensor.ventil_button_3:
+  homebridge_hidden: true
+binary_sensor.ventil_button_4:
+  homebridge_hidden: true
+binary_sensor.ventil_status:
+  homebridge_hidden: true
+automation.wasser_terrasse:
+  homebridge_hidden: true
+cover.wohnzimmer_wz_l_5:
+  homebridge_hidden: false
+cover.wohnzimmer_wz_r_9:
+  homebridge_hidden: false
+sensor.wohnzimmer_rm_t_c_80:
+  homebridge_hidden: false
+binary_sensor.show_timer_brunnen:
+  homebridge_hidden: true
+binary_sensor.show_timer_regner_garager:
+  homebridge_hidden: true
+binary_sensor.show_timer_regner_hecken:
+  homebridge_hidden: true
+binary_sensor.show_timer_sprueh_hecken:
+  homebridge_hidden: true
+binary_sensor.show_timer_wasser_terrasse:
+  homebridge_hidden: true
+automation.zisterne_fullen:
+  homebridge_hidden: false
+automation.zisterne_vormittags_fullen_wenn_notig:
+  homebridge_hidden: true
+automation.zisternen_pumpe_ausschalten_wenn_kein_ventil_offen:
+  homebridge_hidden: true

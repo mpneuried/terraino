@@ -61,8 +61,6 @@
   - data:
       entity_id: switch.pumpe_brunnen_relay
     service: switch.turn_off
-
-
 - id: regner_garage
   alias: Regner Garage
   trigger:
@@ -91,6 +89,11 @@
   - data:
       entity_id: switch.pumpe_zisterne_relay
     service: switch.turn_on
+  - data:
+      entity_id:
+      - sensor.timer_wasser_terrasse
+      - binary_sensor.show_timer_wasser_terrasse
+    service: homeassistant.update_entity
   - delay:
       minutes: '{{ states.input_number.timer_terrasse.state | int }}'
   - data:
@@ -99,8 +102,8 @@
   - data:
       entity_id: switch.ventil_4
     service: switch.turn_off
-- id: regner_hecken
-  alias: Regner Hecken
+- id: sprueh_hecken
+  alias: Hecken Sprüher
   trigger:
   - entity_id: switch.ventil_3
     platform: state
@@ -110,16 +113,31 @@
       entity_id: switch.pumpe_zisterne_relay
     service: switch.turn_on
   - delay:
-      minutes: '{{ states.input_number.timer_hecken.state | int }}'
+      minutes: '{{ states.input_number.timer_hecken_sprueh.state | int }}'
   - data:
       entity_id: switch.pumpe_zisterne_relay
     service: switch.turn_off
   - data:
       entity_id: switch.ventil_3
     service: switch.turn_off
-
-
-
+- id: regner_hecken
+  alias: Regner Hecken
+  trigger:
+  - entity_id: switch.ventil_2
+    platform: state
+    to: 'on'
+  action:
+  - data:
+      entity_id: switch.pumpe_zisterne_relay
+    service: switch.turn_on
+  - delay:
+      minutes: '{{ states.input_number.timer_hecken_regner.state | int }}'
+  - data:
+      entity_id: switch.pumpe_zisterne_relay
+    service: switch.turn_off
+  - data:
+      entity_id: switch.ventil_2
+    service: switch.turn_off
 - id: '1559545933689'
   alias: Brunnen Alarm
   trigger:
@@ -139,46 +157,7 @@
   - data:
       message: Brunnen läuft trocken
     service: notify.ios_julias_iphone
-
-
-- id: garten_zone1
-  alias: Garten Zone 1
-  trigger:
-  - entity_id: input_number.state_watering_automation
-    platform: numeric_state
-    above: 0.5
-    below: 2
-  action:
-  - data:
-      entity_id: switch.garten_zone1
-    service: switch.turn_on
-  - delay:
-      seconds: '{{ states.input_number.duration_zone1.state | int }}'
-  - data:
-      entity_id: switch.garten_zone1
-    service: switch.turn_off
-
-- id: garten_zone2
-  alias: Garten Zone 2
-  trigger:
-  - entity_id: input_number.state_watering_automation
-    platform: numeric_state
-    above: 1.5
-    below: 3
-  action:
-  - data:
-      entity_id: switch.garten_zone2
-    service: switch.turn_on
-  - delay:
-      seconds: '{{ states.input_number.duration_zone2.state | int }}'
-  - data:
-      entity_id: switch.garten_zone2
-    service: switch.turn_off
-
-
-
-
-- id: '1560498332415'
+- id: auto_1
   alias: Bewässerung Automatik 1
   trigger:
   - entity_id: input_boolean.bewaesserung_automation
@@ -190,11 +169,28 @@
   - data:
       entity_id: switch.ventil_1
     service: switch.turn_on
-
-- id: '1560498465515'
+  - data:
+      entity_id: switch.pumpe_brunnen_relay
+    service: switch.turn_on
+- id: auto_2
   alias: Bewässerung Automatik 2
   trigger:
   - entity_id: switch.ventil_1
+    from: 'on'
+    platform: state
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: input_boolean.bewaesserung_automation
+    state: 'on'
+  action:
+  - data:
+      entity_id: switch.ventil_2
+    service: switch.turn_on
+- id: auto_3
+  alias: Bewässerung Automatik 3
+  trigger:
+  - entity_id: switch.ventil_2
     from: 'on'
     platform: state
     to: 'off'
@@ -209,9 +205,8 @@
   - data:
       entity_id: switch.ventil_4
     service: switch.turn_on
-
-- id: '1560498465516'
-  alias: Bewässerung Automatik 3
+- id: auto_4
+  alias: Bewässerung Automatik 4
   trigger:
   - entity_id: switch.ventil_4
     from: 'on'
@@ -232,8 +227,8 @@
   - data:
       entity_id: switch.ventil_3
     service: switch.turn_on
-- id: '1560498465517'
-  alias: Bewässerung Automatik 4
+- id: auto_5
+  alias: Bewässerung Automatik 5
   trigger:
   - entity_id: switch.ventil_3
     from: 'on'
@@ -254,8 +249,8 @@
   - data:
       entity_id: switch.ventil_3
     service: switch.turn_on
-- id: '1560498465518'
-  alias: Bewässerung Automatik 99
+- id: auto_5
+  alias: Bewässerung Automatik End
   trigger:
   - entity_id: switch.ventil_3
     from: 'on'
@@ -272,18 +267,13 @@
   - data:
       entity_id: input_boolean.bewaesserung_automation
     service: input_boolean.turn_off
-
-
-
-
-
 - id: '15595742978536'
   alias: Update Timers
   trigger:
   - hours: '*'
     minutes: '*'
     platform: time_pattern
-    seconds: /2
+    seconds: /5
   condition: []
   action:
   - data:
@@ -297,3 +287,172 @@
       - binary_sensor.show_timer_regner_hecken
       - binary_sensor.show_timer_wasser_terrasse
     service: homeassistant.update_entity
+- id: '1561413373424'
+  alias: Zisterne füllen
+  trigger:
+  - hours: ''
+    minutes: /5
+    platform: time_pattern
+    seconds: ''
+  condition:
+  - condition: state
+    entity_id: switch.pumpe_brunnen_relay
+    state: 'off'
+  - below: '60'
+    condition: numeric_state
+    entity_id: sensor.fuellstand
+  action:
+  - data:
+      entity_id: switch.pumpe_brunnen_relay
+    service: switch.turn_on
+- id: '1561455493340'
+  alias: Brunnen abschalten wenn Zisterne voll
+  trigger:
+  - above: '98'
+    entity_id: sensor.fuellstand
+    for: 00:01:00
+    platform: numeric_state
+  condition:
+  - condition: state
+    entity_id: switch.pumpe_brunnen_relay
+    state: 'on'
+  action:
+  - data:
+      entity_id: switch.pumpe_brunnen_relay
+    service: switch.turn_off
+- id: '1561470360865'
+  alias: Bewässerung Zeitschaltuhr
+  trigger:
+  - at: '18:15'
+    platform: time
+  condition:
+  - condition: state
+    entity_id: input_boolean.bewaesserung_automation
+    state: 'off'
+  action:
+  - data:
+      entity_id: input_boolean.bewaesserung_automation
+    service: input_boolean.turn_on
+- id: '1561504077661'
+  alias: Start Auto Beregnung durch Interface Klick
+  trigger:
+  - entity_id: binary_sensor.toggle_automation
+    platform: state
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: switch.bewaesserung_automation
+    state: 'off'
+  action:
+  - data:
+      entity_id: switch.bewaesserung_automation
+    service: switch.turn_on
+- id: '1561504077662'
+  alias: Stop Auto Beregnung durch Interface Klick
+  trigger:
+  - entity_id: binary_sensor.toggle_automation
+    platform: state
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: switch.bewaesserung_automation
+    state: 'on'
+  action:
+  - data:
+      entity_id: switch.bewaesserung_automation
+    service: switch.turn_off
+- id: '1561504077671'
+  alias: Start Terrassen Wasser durch Interface Klick
+  trigger:
+  - entity_id: binary_sensor.toggle_wasser_terrasse
+    platform: state
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: switch.ventil_4
+    state: 'off'
+  action:
+  - data:
+      entity_id: switch.ventil_4
+    service: switch.turn_on
+- id: '1561504077672'
+  alias: Stop Terrassen Wasser durch Interface Klick
+  trigger:
+  - entity_id: binary_sensor.toggle_wasser_terrasse
+    platform: state
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: switch.ventil_4
+    state: 'on'
+  action:
+  - data:
+      entity_id: switch.ventil_4
+    service: switch.turn_off
+  - data:
+      entity_id:
+      - sensor.timer_wasser_terrasse
+      - binary_sensor.show_timer_wasser_terrasse
+    service: homeassistant.update_entity
+- id: '1561530510337'
+  alias: Zisternen Pumpe ausschalten wenn kein Ventil offen
+  trigger:
+  - entity_id: switch.ventil_1
+    for: 00:00:03
+    from: 'on'
+    platform: state
+    to: 'off'
+  - entity_id: switch.ventil_2
+    for: 00:00:03
+    from: 'on'
+    platform: state
+    to: 'off'
+  - entity_id: switch.ventil_3
+    for: 00:00:03
+    from: 'on'
+    platform: state
+    to: 'off'
+  - entity_id: switch.ventil_4
+    for: 00:00:03
+    from: 'on'
+    platform: state
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: switch.ventil_1
+    state: 'off'
+  - condition: state
+    entity_id: switch.ventil_2
+    state: 'off'
+  - condition: state
+    entity_id: switch.ventil_3
+    state: 'off'
+  - condition: state
+    entity_id: switch.ventil_4
+    state: 'off'
+  action:
+  - data:
+      entity_id: switch.pumpe_zisterne_relay
+    service: switch.turn_off
+- id: '1561659157942'
+  alias: Zisterne vormittags füllen wenn nötig
+  trigger:
+  - at: 09:00
+    platform: time
+  condition:
+  - below: '75'
+    condition: numeric_state
+    entity_id: sensor.fuellstand
+  action:
+  - data:
+      entity_id: switch.pumpe_brunnen_relay
+    service: switch.turn_on
+
+- alias: Set Ventilation Profile
+  trigger:
+    platform: state
+    entity_id: input_select.ventilation_profile
+  action:
+    service: vallox.set_profile
+    data_template:
+      profile: "{{ states('input_select.ventilation_profile') }}"
