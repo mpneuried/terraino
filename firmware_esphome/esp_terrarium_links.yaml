@@ -1,0 +1,119 @@
+esphome:
+  name: terrarium_links
+  platform: ESP8266
+  board: nodemcuv2
+  on_boot:
+    priority: -100
+    then:
+      - script.execute: bootup
+
+wifi:
+  ssid: "Catwoman"
+  password: "qct25ssvfj97"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Terrarium Links Hotspot"
+    password: "rVucmUGlUfxo"
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: "xrdzrtfsx&Rdq07"
+
+ota:
+  password: "xrdzrtfsx&Rdq07"
+
+web_server:
+  port: 80
+
+script:
+  - id: day_mode
+    then:
+      - lambda: |-
+          id(terra_climate).mode = esphome::climate::ClimateMode::CLIMATE_MODE_HEAT;
+      - switch.turn_on:
+          id: terra_light
+  - id: night_mode
+    then:
+      - lambda: |-
+          id(terra_climate).mode = esphome::climate::ClimateMode::CLIMATE_MODE_OFF;
+      - switch.turn_off:
+          id: terra_light
+  - id: bootup
+    then:
+      #- delay: 10 s
+      - if:
+          condition:
+            - sun.is_above_horizon
+          then:
+            - script.execute: day_mode
+          else:
+            - script.execute: night_mode
+
+# interval:
+#   - interval: 1min
+#     then:
+#       - script.execute: check_mode
+
+sun:
+  id: sun_sun
+  # Japan (test)
+  # latitude: 35.652832
+  # longitude: 139.839478
+  # Zerbst
+  latitude: 51.9631607823005
+  longitude: 12.083890137970297
+  on_sunrise:
+    - then:
+        - script.execute: day_mode
+
+  on_sunset:
+    - then:
+        - script.execute: night_mode
+
+# At least one time source is required
+time:
+  - platform: sntp
+    id: sntp_time
+
+switch:
+  - platform: gpio
+    pin: D6
+    id: heater
+  - platform: gpio
+    pin: D7
+    name: "Terrarium Links Licht"
+    id: terra_light
+
+sensor:
+  - platform: dht
+    pin: D4
+    model: DHT22
+    update_interval: 120s
+    temperature:
+      id: terra_temp
+      name: "Terrarium Links Temperatur"
+    humidity:
+      id: terra_humi
+      name: "Terrarium Links Feuchte"
+
+climate:
+  - platform: thermostat
+    id: terra_climate
+    name: "Terrarium Links Klima"
+    sensor: terra_temp
+    hysteresis: 0.3 °C
+    default_target_temperature_low: 28 °C
+    visual:
+      min_temperature: 12 °C
+      max_temperature: 33 °C
+      temperature_step: 0.5 °C
+    heat_action:
+      - switch.turn_on: heater
+    idle_action:
+      - switch.turn_off: heater

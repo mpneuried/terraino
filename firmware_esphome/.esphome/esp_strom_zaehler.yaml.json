@@ -1,0 +1,28 @@
+{
+  "storage_version": 1,
+  "name": "strom_zaehler",
+  "comment": null,
+  "esphome_version": "1.15.2",
+  "src_version": 1,
+  "arduino_version": "espressif8266@2.6.2",
+  "address": "strom_zaehler.local",
+  "esp_platform": "ESP8266",
+  "board": "nodemcuv2",
+  "build_path": "strom_zaehler",
+  "firmware_bin_path": "strom_zaehler/.pioenvs/strom_zaehler/firmware.bin",
+  "loaded_integrations": [
+    "api",
+    "async_tcp",
+    "captive_portal",
+    "esphome",
+    "json",
+    "logger",
+    "network",
+    "ota",
+    "pulse_counter",
+    "sensor",
+    "web_server",
+    "web_server_base",
+    "wifi"
+  ]
+}

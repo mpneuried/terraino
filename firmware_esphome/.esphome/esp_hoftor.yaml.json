@@ -1,0 +1,31 @@
+{
+  "storage_version": 1,
+  "name": "hoftor",
+  "comment": null,
+  "esphome_version": "1.15.2",
+  "src_version": 1,
+  "arduino_version": "espressif8266@2.6.2",
+  "address": "hoftor.local",
+  "esp_platform": "ESP8266",
+  "board": "d1_mini",
+  "build_path": "hoftor",
+  "firmware_bin_path": "hoftor/.pioenvs/hoftor/firmware.bin",
+  "loaded_integrations": [
+    "api",
+    "async_tcp",
+    "binary_sensor",
+    "captive_portal",
+    "cover",
+    "esphome",
+    "gpio",
+    "json",
+    "logger",
+    "network",
+    "ota",
+    "switch",
+    "template",
+    "web_server",
+    "web_server_base",
+    "wifi"
+  ]
+}

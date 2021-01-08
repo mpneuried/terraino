@@ -1,0 +1,119 @@
+esphome:
+  name: hoftor
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: "Catwoman"
+  password: "qct25ssvfj97"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Garagentor Fallback Hotspot"
+    password: "rVucmUGlUfxo"
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: "xrdzrtfsx&Rdq07"
+
+ota:
+  password: "xrdzrtfsx&Rdq07"
+
+web_server:
+  port: 80
+
+switch:
+  - platform: gpio
+    inverted: true
+    pin: D1
+    id: open_pulse_relais
+    interlock: [close_pulse_relais]
+  - platform: gpio
+    inverted: true
+    pin: D2
+    id: close_pulse_relais
+    interlock: [open_pulse_relais]
+  - platform: template
+    # name: "Garagentor Schalter"
+    optimistic: True
+    id: open_switch
+    turn_on_action:
+      - switch.turn_on: open_pulse_relais
+      - delay: 10sec
+      - switch.turn_off: open_pulse_relais
+    turn_off_action:
+      - switch.turn_off: open_pulse_relais
+  - platform: template
+    # name: "Garagentor Schalter"
+    optimistic: True
+    id: close_switch
+    turn_on_action:
+      - switch.turn_on: close_pulse_relais
+      - delay: 5sec
+      - switch.turn_off: close_pulse_relais
+    turn_off_action:
+      - switch.turn_off: close_pulse_relais
+
+binary_sensor:
+  - platform: gpio
+    id: endstop_close
+    name: "Endstop Close"
+    # filters:
+    #   - delayed_on: 100ms
+    #   - delayed_off: 100ms
+    pin:
+      number: D5
+      #mode: INPUT_PULLUP
+      inverted: True
+    on_state:
+      then:
+        - cover.template.publish:
+            id: cover_hoftor
+            state: CLOSED
+        - switch.turn_off: close_switch
+  - platform: gpio
+    id: endstop_open
+    name: "Endstop Open"
+    # filters:
+    #   - delayed_on: 100ms
+    #   - delayed_off: 100ms
+    pin:
+      number: D6
+      # mode: INPUT_PULLUP
+      inverted: True
+    on_state:
+      then:
+        - cover.template.publish:
+            id: cover_hoftor
+            state: OPEN
+        - switch.turn_off: open_switch
+
+# cover:
+#   - platform: time_based
+#     id: cover_hoftor
+#     name: "Hoftor"
+#     open_action:
+#       - switch.turn_on: open_pulse_relais
+#     open_duration: 10sec
+#     close_action:
+#       - switch.turn_on: close_pulse_relais
+#     close_duration: 10sec
+#     stop_action:
+#       - switch.turn_off: close_pulse_relais
+#       - switch.turn_off: open_pulse_relais
+cover:
+  - platform: template
+    id: cover_hoftor
+    name: "Hoftor"
+    open_action:
+      - switch.turn_on: open_switch
+    close_action:
+      - switch.turn_on: close_switch
+    stop_action:
+      - switch.turn_off: close_switch
+      - switch.turn_off: open_switch

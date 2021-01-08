@@ -1,0 +1,42 @@
+esphome:
+  name: strom_zaehler
+  platform: ESP8266
+  board: nodemcuv2
+
+wifi:
+  ssid: "Catwoman"
+  password: "qct25ssvfj97"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Terrarium Rechts Hotspot"
+    password: "rVucmUGlUfxo"
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: "xrdzrtfsx&Rdq07"
+
+ota:
+  password: "xrdzrtfsx&Rdq07"
+
+web_server:
+  port: 80
+
+sensor:
+  - platform: pulse_counter
+    pin: D2
+    unit_of_measurement: "kW"
+    name: "Power Meter A"
+    filters:
+      - multiply: 0.0002
+  - platform: pulse_counter
+    pin: D1
+    unit_of_measurement: "kW"
+    name: "Power Meter b"
+    filters:
+      - multiply: 0.0002

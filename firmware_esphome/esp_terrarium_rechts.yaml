@@ -1,0 +1,133 @@
+esphome:
+  name: terrarium_rechts
+  platform: ESP32
+  board: nodemcu-32s
+  platformio_options:
+    upload_speed: 115200
+  on_boot:
+    priority: -100
+    then:
+      if:
+        condition:
+          - sun.is_above_horizon
+        then:
+          - script.execute: day_mode
+        else:
+          - script.execute: night_mode
+
+wifi:
+  ssid: "Catwoman"
+  password: "qct25ssvfj97"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Terrarium Rechts Hotspot"
+    password: "rVucmUGlUfxo"
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: "xrdzrtfsx&Rdq07"
+
+ota:
+  password: "xrdzrtfsx&Rdq07"
+
+web_server:
+  port: 80
+
+script:
+  - id: day_mode
+    then:
+      - lambda: |-
+          id(terra_climate).mode = esphome::climate::ClimateMode::CLIMATE_MODE_HEAT;
+      - switch.turn_on:
+          id: terra_light
+  - id: night_mode
+    then:
+      - lambda: |-
+          id(terra_climate).mode = esphome::climate::ClimateMode::CLIMATE_MODE_OFF;
+      - switch.turn_off:
+          id: terra_light
+#   - id: check_mode
+#     then:
+#       - lambda: |-
+#           if (id(sun_sun).is_above_horizon()) {
+#             id(day_mode).execute();
+#           } else {
+#             id(night_mode).execute();
+#           }
+
+# interval:
+#   - interval: 1min
+#     then:
+#       - script.execute: check_mode
+
+sun:
+  id: sun_sun
+  # Japan (test)
+  # latitude: 35.652832
+  # longitude: 139.839478
+  # Zerbst
+  latitude: 51.9631607823005
+  longitude: 12.083890137970297
+  on_sunrise:
+    - then:
+        - script.execute: day_mode
+
+  on_sunset:
+    - then:
+        - script.execute: night_mode
+
+# At least one time source is required
+time:
+  - platform: sntp
+    id: sntp_time
+
+switch:
+  - platform: gpio
+    pin: GPIO26
+    id: heater
+  - platform: gpio
+    pin: GPIO25
+    name: "Terrarium Rechts Licht"
+    id: terra_light
+
+sensor:
+  - platform: dht
+    pin: GPIO14
+    model: DHT22
+    update_interval: 120s
+    temperature:
+      id: terra_temp
+      name: "Terrarium Rechts Temperatur"
+    humidity:
+      id: terra_humi
+      name: "Terrarium Rechts Feuchte"
+
+climate:
+  - platform: thermostat
+    id: terra_climate
+    name: "Terrarium Rechts Klima"
+    sensor: terra_temp
+    hysteresis: 0.4 °C
+    default_target_temperature_low: 28 °C
+    visual:
+      min_temperature: 12 °C
+      max_temperature: 33 °C
+      temperature_step: 0.2 °C
+    heat_action:
+      - switch.turn_on: heater
+    idle_action:
+      - switch.turn_off: heater
+
+remote_receiver:
+  pin: GPIO35
+  dump:
+    - rc_switch
+# remote_transmitter:
+#   pin: GPIO32
+#   carrier_duty_percent: 50%
